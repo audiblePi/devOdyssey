@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<layout>
+	<default>
+	</default>
+	
+	<customer_account_create translate="label">
+        <reference name="head">
+            <action method="addJs"><script>varien/product.js</script></action>
+            <action method="addJs"><script>varien/configurable.js</script></action>
+
+            <action method="addItem"><type>js_css</type><name>calendar/calendar-win2k-1.css</name><params/></action>
+            <action method="addItem"><type>js</type><name>calendar/calendar.js</name></action>
+            <action method="addItem"><type>js</type><name>calendar/calendar-setup.js</name></action>
+    	</reference>
+        
+        <block name="customer_form_register">
+            <action method="setTemplate"><template>attributemanager/customer/form/register.phtml</template></action>
+        </block>
+        
+        <reference name="before_body_end">
+            <block type="core/html_calendar" name="html_calendar" as="html_calendar" template="page/js/calendar.phtml"/>
+        </reference>
+	</customer_account_create>
+	<customer_account_edit translate="label">
+        <reference name="head">
+            <action method="addJs"><script>varien/product.js</script></action>
+            <action method="addJs"><script>varien/configurable.js</script></action>
+
+            <action method="addItem"><type>js_css</type><name>calendar/calendar-win2k-1.css</name><params/></action>
+            <action method="addItem"><type>js</type><name>calendar/calendar.js</name></action>
+            <action method="addItem"><type>js</type><name>calendar/calendar-setup.js</name></action>
+    	</reference>
+        
+        <block name="customer_edit">
+            <action method="setTemplate"><template>attributemanager/customer/form/edit.phtml</template></action>
+        </block>
+        
+        <reference name="before_body_end">
+            <block type="core/html_calendar" name="html_calendar" as="html_calendar" template="page/js/calendar.phtml"/>
+        </reference>		
+	</customer_account_edit>
+</layout>

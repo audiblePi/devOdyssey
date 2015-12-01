@@ -1,0 +1,539 @@
+/**
+ * Theme-specific styles
+ */
+
+
+
+/* %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+   Override/extend styles.css %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% */
+
+/* Layout %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% */
+
+.wrapper { border-top-style:solid; border-top-width:5px; }
+.main { padding:30px 0 40px; }
+
+/* Additional margin for main sidebars
+-------------------------------------------------------------- */
+.col-left > * { margin-right: 15px; }
+.col-right > * { margin-left: 15px; }
+
+
+
+/* Global Styles %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% */
+
+/* Form
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+*/
+/* Fieldset
+-------------------------------------------------------------- */
+/* Common styles for fieldsets and blocks in Multiple Addresses Checkout and Generic Info Set */
+.fieldset,
+.multiple-checkout .col2-set,
+.multiple-checkout .col3-set,
+.info-set {
+    margin:0 0 10px;
+    padding:0 15px 15px;
+}
+.fieldset .legend,
+.multiple-checkout .col2-set h2.legend,
+.info-set h2.legend {
+	margin:0 -15px 10px -15px;
+	padding-left:15px; padding-right:15px;
+}
+
+/* Buttons set
+-------------------------------------------------------------- */
+.buttons-set { margin:10px 15px; }
+/* Note: buttons and "required" have equal right margin */
+.buttons-set button.button { margin-left:0; margin-right:5px; margin-bottom:5px; }
+.buttons-set p.required { margin:0 5px 5px 0; }
+
+
+
+/* Page Heading
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+*/
+.page-title h1,
+.page-title h2 { margin:0; min-height:1.3125em; /* 42px. Has to ba aligned with ".block .block-title" */ }
+.category-title { margin-bottom:0; }
+
+
+/* Global Messages
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+*/
+.note-msg.empty-catalog {
+	background:url(../images/img/empty-catalog.png) 10px 10px no-repeat transparent !important;
+	color:inherit;
+	min-height:70px;
+	padding:40px 20px 40px 160px !important;
+}
+
+
+/* BreadCrumbs
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+*/
+.breadcrumbs { line-height:1.5em; /*18px*/ margin:0 0 5px; }
+/* Breadcrumbs on product page */
+.catalog-product-view .breadcrumbs { margin-bottom:10px; }
+
+
+
+/* Header %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% */
+
+/* Line breaker */
+.user-menu .line-break-after { clear:both; margin-bottom: 1px; }
+
+/* Quick search: skins
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+*/
+/* Search: inline
+-------------------------------------------------------------- */
+.search-wrapper-inline .form-search .input-text { min-width: 180px; }
+
+
+/* Quick search: positions
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+*/
+/* Position 0 */
+.search-wrapper-p0 { float: right; }
+.search-wrapper-p0 .form-search .input-text { min-width: 220px; }
+
+/* Position 1 - right side of top links */
+.search-wrapper-p1 { float: right; }
+.search-wrapper-p1 .form-search .input-text { min-width: 220px; }
+
+/* Position 2 - right side of top links */
+.search-wrapper-p2 { float: right; }
+.search-wrapper-p2 .form-search .input-text { min-width: 220px; }
+
+/* Position 3 - right side of top links */
+.search-wrapper-p3 { float: right; }
+.search-wrapper-p3 .form-search .input-text { min-width: 220px; }
+
+/* Position 4 - right side of top links */
+.search-wrapper-p4 { float: right; }
+.search-wrapper-p4 .form-search .input-text { min-width: 220px; }
+
+/* Position 5 - right side of top links */
+.search-wrapper-p5 { float: right; }
+.search-wrapper-p5 .form-search .input-text { min-width: 220px; }
+
+
+/* Mini-cart
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+*/
+/*#mini-cart { margin-bottom:-8px; }*/
+
+
+
+/* Sidebar %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% */
+
+/* Block lists
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+*/
+.block-viewed .block-content ol,
+.block-compare .block-content ol,
+.block-compared .block-content ol {
+	padding-left: 0;
+	list-style: none;
+}
+.block-viewed .block-content li.item,
+.block-compare .block-content li.item,
+.block-compared .block-content li.item {
+	background:url(../images/img/bullet.png) no-repeat 0 10px;
+	padding-left:10px;
+}
+
+
+/* Block: Related
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+*/
+/* Align block title with the tabs on product page */
+.block-related .section-title { padding-top: 19px; }
+.block-related-thumbnails .owl-wrapper { margin-top:15px; }
+
+
+/* Block: Account
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+*/
+.block-account .block-title { background:url(../images/img/ic-account.png) 5px 2px no-repeat; padding-left:42px !important; }
+.block-account .block-content { padding:10px 0 0; }
+.block-account li > * { padding: 2px; }
+.block-account li.current strong { font-weight:bold; }
+
+
+
+/* Category view %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% */
+.products-grid .item { -webkit-tap-highlight-color: transparent; }
+
+
+
+/* Product view elements %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% */
+
+/* Availability
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+*/
+.availability { float:right; margin:15px 0; }
+
+
+
+/* Product page %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% */
+
+/* Prices
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+*/
+/* Bundle product */
+.price-box-bundle {
+	border-bottom:1px solid #e5e5e5;
+	margin:-10px 0 15px; /* Move up to align with the main price box */
+	padding-bottom:15px;
+}
+
+
+/* Main containers
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+*/
+/* Margin before price box */
+.product-view .space-before-avail { margin:0 0 15px; height:0; line-height:0; }
+
+/* Upper part of the container */
+.product-view .product-type-data > .price-box {
+	border-top-style:solid;
+	border-top-width:1px;
+	margin:15px 0 0;
+	padding:10px 0;
+}
+
+/* Other
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+*/
+/* Add to cart button */
+.product-view .btn-cart span span { padding:5px 40px; }
+
+/* Reviews */
+.product-view .box-reviews .buttons-set { margin-left:0; margin-right:0; }
+
+
+/* New elements
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+*/
+.product-view .sku { margin: 15px 0; }
+.product-view .sku span { font-weight: bold; }
+
+
+/* Product type specific data
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+*/
+.product-view .is-type-grouped .availability { margin-top:0; margin-bottom:0; }
+.product-view .grouped-items-table input.input-text { height: 26px; padding:4px; /* Decrease default height and padding */ }
+
+
+
+/* My Account %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% */
+
+/*.my-account .pager { margin: -1px 0 20px; }*/
+
+
+
+/* Footer %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% */
+
+/* Footer primary
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+*/
+.footer-primary .section { padding-top: 20px; padding-bottom: 20px; }
+
+
+
+
+
+/* %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+   Misc %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% */
+
+/* Accordion & Collapsible %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% */
+
+/* Accordion - Style 1
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+*/
+.accordion-style1 li a {
+	border-bottom-color:#eee;
+	border-bottom:1px solid rgba(0,0,0,0.06);
+}
+.accordion-style1 li a:hover {
+	background-color:rgba(0,0,0, 0.03);
+}
+
+/* Opener
+-------------------------------------------------------------- */
+.accordion-style1 .opener {
+	background-color:rgba(0,0,0, 0.03);
+}
+
+
+
+/* Other modifications %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% */
+
+/* Nav container:
+   with outline (if nav container has background color) or without outline (stretched)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+*/
+/* With outline
+-------------------------------------------------------------- */
+/* Add top and bottom margin */
+.nav.has-outline > .grid-full { margin-top: 1%; margin-bottom: 1%; }
+.nav.has-outline #mobnav { margin-bottom: 0; } /* Trigger has no bottom margin */
+
+/* Without outline
+-------------------------------------------------------------- */
+/* If menu stretched, no top and bottom margin. Important: added "container" class to make the selector more specific */
+.container.nav.stretched > .grid-full { margin-top: 0; margin-bottom: 0; }
+/*.nav > .grid-full { float:left; }*/
+
+
+/* Cart
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+*/
+/* Collateral boxes - stretch */
+.cart-left-column .grid-full,
+.cart-right-column .grid-full { width:100%; }
+
+
+/* Interface icons
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+*/
+
+/* Icons with no background
+-------------------------------------------------------------- */
+/* Toolbar */
+.sorter .view-mode a,
+.sorter .sort-by .category-asc,
+.sorter .sort-by .category-desc,
+.pager .pages li a,
+
+/* Add-to links */
+.add-to-links.addto-icons a,
+
+/* Slider arrows (for zoom thumbnails) */
+.slider-arrows3 .owl-controls .owl-buttons div,
+.slider-arrows3 .owl-controls.clickable .owl-buttons div.disabled:hover,
+
+	/* Deprecated */
+	.gen-slider-arrows3 .direction-nav a,
+	.gen-slider-arrows3 .direction-nav a.disabled:hover
+{
+	background-color:transparent;
+}
+
+/* Other icons
+-------------------------------------------------------------- */
+/* Add-to links icons in product grid */
+.products-grid .addto-links-icons span.icon { border-radius: 0; }
+
+/* Pager */
+.pager .pages li a { background-color:#f5f5f5; }
+
+/* Add-to links */
+.addto-links-icons span.icon,
+.add-to-links.addto-icons a, /* Obsolete */
+
+/* Slideshow directional arrows */
+.gen-slider-arrows2 .direction-nav a,
+.gen-slider-arrows2 .direction-nav a.disabled:hover { background-color:#fff; }
+
+
+
+
+
+/* %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+   Built-in static blocks %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% */
+
+/* Deprecated: Header top - help block */
+.header-top .phone { background:url(../images/img/ic-phone.png) 0 center no-repeat; padding:0 0 0 24px; }
+
+.block_category_above_collection { margin:10px 0; }
+.block_category_below_collection { margin:10px 0; }
+.block_category_above_empty_collection { margin:10px 0; }
+
+/*.block_product_primary_bottom {}
+.block_product_secondary_bottom {}
+.block_product_replace_related {}
+.block_product_replace_upsell {}
+	
+.block_cart_below_totals {}
+.block_cart_below_table {}*/
+
+.block_mini_cart_above_products { margin:0 0 10px; }
+
+.block_opc_below_progress { margin:15px 0; }
+
+.block_cms_page_top { margin:0 0 15px; }
+
+/*.block_header_top_left {}
+.block_header_top_left2 {}
+.block_header_top_right {}
+.block_header_top_right2 {}
+
+.block_footer_primary_bottom_left {}
+.block_footer_primary_bottom_right {}*/
+.block_footer_payment { margin-right:10px; margin-bottom:10px; margin-left:20px; }
+
+/* Sample block content
+-------------------------------------------------------------- */
+.sample-block {
+	color:#999;
+	margin-top:10px;
+	padding: 0 !important;
+	transition:			color 300ms ease-in-out, background-color 300ms ease-in-out;
+	-moz-transition:	color 300ms ease-in-out, background-color 300ms ease-in-out;
+	-webkit-transition: color 300ms ease-in-out, background-color 300ms ease-in-out;
+	-o-transition:		color 300ms ease-in-out, background-color 300ms ease-in-out;
+}
+.sample-block:hover { color:#333; }
+
+
+
+/* %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+   High-resolution-ready (retina-ready) %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% */
+
+@media
+only screen and (-webkit-min-device-pixel-ratio: 1.5),
+only screen and (   min--moz-device-pixel-ratio: 1.5),
+only screen and (     -o-min-device-pixel-ratio: 3/2),
+only screen and (    -ms-min-device-pixel-ratio: 1.5),
+only screen and (        min-device-pixel-ratio: 1.5)
+{
+
+	/* Rating */
+	.rating-box,
+	.rating-box .rating { background-image:url(../images/img/rating@2x.png); background-size:14px 43px; }
+	
+	/* Theme icons
+	-------------------------------------------------------------- */
+	/* To top */
+	#scroll-to-top,
+	
+	/* Search button */
+	.header .form-search .button span,
+	
+	/* All icons from icons-theme.css */
+	/* Row 1: */
+	.icon.i-wishlist,
+	.icon.i-wishlist-w,
+	.icon.i-wishlist-bw,
+	.icon.i-wishlist-wb,
+	
+	.icon.i-compare,
+	.icon.i-compare-w,
+	.icon.i-compare-bw,
+	.icon.i-compare-wb,
+	
+	.icon.i-recommend,
+	.icon.i-recommend-w,
+	.icon.i-recommend-bw,
+	.icon.i-recommend-wb,
+	
+	.icon.i-lowstock,
+	.icon.i-lowstock-w,
+	.icon.i-lowstock-bw,
+	.icon.i-lowstock-wb,
+	
+	.icon.i-cart,
+	.icon.i-cart-w,
+	.icon.i-cart-bw,
+	.icon.i-cart-wb,
+	
+	/* Row 2: */
+	.icon.i-home,
+	.icon.i-home-w,
+	.icon.i-home-bw,
+	.icon.i-home-wb,
+	
+	.icon.i-left,
+	.icon.i-left-w,
+	.icon.i-left-bw,
+	.icon.i-left-wb,
+	
+	.icon.i-right,
+	.icon.i-right-w,
+	.icon.i-right-bw,
+	.icon.i-right-wb,
+	
+	.icon.i-top,
+	.icon.i-top-w,
+	.icon.i-top-bw,
+	.icon.i-top-wb,
+	
+	.icon.i-bottom,
+	.icon.i-bottom-w,
+	.icon.i-bottom-bw,
+	.icon.i-bottom-wb /* Last selector without trailing coma */
+	
+	{ background-image:url(../images/sprite@2x.png); background-size:500px 200px; }
+	
+	
+	/* All icons from icons-social.css
+	-------------------------------------------------------------- */
+	/* Row 1: */
+	.icon.i-telephone,
+	.icon.i-telephone-w,
+	
+	.icon.i-mobile,
+	.icon.i-mobile-w,
+
+	.icon.i-skype,
+	.icon.i-skype-w,
+	
+	.icon.i-letter,
+	.icon.i-letter-w,
+
+	.icon.i-location,
+	.icon.i-location-w,
+	
+	/* Row 2: */
+	.icon.i-twitter,
+	.icon.i-twitter-w,
+	
+	.icon.i-facebook,
+	.icon.i-facebook-w,
+	
+	.icon.i-googleplus,
+	.icon.i-googleplus-w,
+	
+	.icon.i-youtube,
+	.icon.i-youtube-w,
+	
+	.icon.i-vimeo,
+	.icon.i-vimeo-w,
+	
+	.icon.i-wordpress,
+	.icon.i-wordpress-w,
+	
+	.icon.i-pinterest,
+	.icon.i-pinterest-w,
+		
+	.icon.i-linkedin,
+	.icon.i-linkedin-w,
+	
+	.icon.i-blogger,
+	.icon.i-blogger-w,
+
+	.icon.i-envato,
+	.icon.i-envato-w /* Last selector without trailing coma */
+	
+	{ background-image:url(../images/sprite-icons-social@2x.png); background-size:500px 200px; }
+
+} /* end: media query */

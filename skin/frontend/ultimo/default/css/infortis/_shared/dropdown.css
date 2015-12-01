@@ -1,0 +1,97 @@
+/**
+ * Drop-down
+ */
+
+
+
+/* Dropdown box %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% */
+
+.dropdown { position:relative; }
+.dropdown:hover { z-index:4000; }
+
+/* Dropdown toggle
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+*/
+.dropdown-toggle {
+	display:block;
+	cursor:default;
+}
+
+/* Inside Dropdown-toggle
+-------------------------------------------------------------- */
+.dropdown-toggle * { display:inline-block; }
+.dropdown-toggle .label { padding-right:2px; }
+.dropdown-toggle .value {}
+.dropdown-toggle .dropdown-icon {
+	width:18px;
+	text-indent:-9999px;
+	background-position:0 50%;
+	background-repeat:no-repeat;
+}
+.dropdown-toggle .img-caret {
+	background:url(../../../images/infortis/_shared/dropdown/arrow-dropdown.png) 100% 50% no-repeat;
+	width:10px;
+	text-indent:-9999px;
+}
+
+/* Predefined icons
+-------------------------------------------------------------- */
+.dropdown-toggle .icon.first { margin-left:-5px; }
+.dropdown-toggle .icon.close-to-text { margin-right:-8px; }
+
+
+/* Cover 'dropdown-toggle' (and 'dropdown-menu' shadow) with additional inner div
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+*/
+		.dropdown-toggle.cover > div { padding:0 10px; cursor:default; }
+.open > .dropdown-toggle.cover > div { background-color:#fff; }
+/*.dropdown:hover .dropdown-toggle.cover > div,*/
+.open > .dropdown-toggle.cover > div {
+	z-index:4001;
+	position:relative;
+}
+
+
+/* Dropdown menu
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+*/
+.dropdown-menu {
+	display:none;
+	position:absolute;
+	top:100%;
+	left:0;
+	z-index:4000;
+	padding:20px;
+	min-width:130px;
+	line-height:1.5em;
+	text-align:left;
+
+	list-style:none;
+	background-color:#fff;
+}
+.dropdown-menu.left-hand {
+	left:auto;
+	right:0;
+}
+
+/* When dropdown menu is an unordered list
+-------------------------------------------------------------- */
+/* Everything is inline-block, except links */
+.dropdown-menu > li * { display:inline-block; }
+.dropdown-menu > li > a { display:block; }
+
+.dropdown-menu > li { white-space:nowrap; }
+.dropdown-menu > li .label { margin-right:8px; }
+.dropdown-menu .dropdown-icon {
+	width:18px;
+	text-indent:-9999px;
+	background-position:0 50%;
+	background-repeat:no-repeat;
+}
+
+
+/* Clickable
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+*/
+.clickable-dropdown {}

@@ -1,0 +1,60 @@
+/**
+ * Wide drop-down menu
+ */
+
+
+
+/* 1st level only
+-------------------------------------------------------------- */
+#nav > li:hover > a { position: relative; z-index: 1; /* Pull up above drop-down box */ }
+
+/* 2nd level only
+-------------------------------------------------------------- */
+/* 2nd-level links block: with subcategory title and a list of child categories */
+#nav ul.level0 > li {
+	display:inline-block;
+	float:none;
+	vertical-align:top;
+	padding-top:0;
+	padding-bottom:15px;
+}
+#nav ul.level0 > li > a {
+	margin-bottom:10px;
+	font-size:16px;
+	line-height:18px;
+}
+
+/* 2nd level+
+-------------------------------------------------------------- */
+#nav ul li { /*float:none;*/ margin-bottom:1px; }
+#nav ul li a { float:none; }
+
+/* 3rd level only
+-------------------------------------------------------------- */
+#nav ul.level1 { position:static; }
+#nav ul.level1 > li {
+	float:none;
+	background:url(../../../images/infortis/ultra-megamenu/bullet.png) 3px 6px no-repeat;
+	padding-left:15px;
+	transition:			background-position 150ms ease-out;
+	-moz-transition:	background-position 150ms ease-out;
+	-webkit-transition:	background-position 150ms ease-out;
+	-o-transition:		background-position 150ms ease-out;
+}
+#nav ul.level1 > li:hover { background-position:6px 6px; }
+
+/* 4th level
+-------------------------------------------------------------- */
+#nav ul.level2 { margin:7px 0; padding:0; position:static; }
+#nav ul.level2 a { font-size:0.9166em; line-height:1.2727em; /*11px 14px*/ opacity:0.6; }
+#nav li.level2:hover ul.level2 a {
+	opacity:1;
+	transition:			opacity 150ms ease-out;
+	-moz-transition:	opacity 150ms ease-out;
+	-webkit-transition:	opacity 150ms ease-out;
+	-o-transition:		opacity 150ms ease-out;
+}
+
+/* 4rd level+
+-------------------------------------------------------------- */
+#nav ul ul ul li { background:none; padding-left:0; }

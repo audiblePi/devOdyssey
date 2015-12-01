@@ -1,0 +1,44 @@
+<?php $helpZoom = $this->helper('infortis_cloudzoom'); ?>
+<?php if ($helpZoom->useLightbox()): ?>
+	<?php
+		$maxWidth	= $helpZoom->getCfg('lightbox/max_width');
+		$maxHeight	= $helpZoom->getCfg('lightbox/max_height');
+		$cfg = '';
+		if ($maxWidth)
+			$cfg .= ", maxWidth:'{$maxWidth}'";
+		if ($maxHeight)
+			$cfg .= ", maxHeight:'{$maxHeight}'";
+	?>
+	<script type="text/javascript">
+        jQuery(function($) {
+            
+            $(".lightbox-group").colorbox({
+			<?php if ($helpZoom->getCfg('lightbox/group')): ?>
+                rel:		'lightbox-group',
+			<?php endif; ?>
+                opacity:	0.5,
+                speed:		300,
+                current:	'<?php echo $this->__('image {current} of {total}') ?>'
+				<?php if ($cfg) echo $cfg; ?>
+			});
+			
+			//Product thumbnails
+			<?php if ($helpZoom->getCfg('lightbox/group')): ?>
+				$(".cloud-zoom-gallery").first().removeClass("cboxElement");
+			<?php endif; ?>
+			
+			$(".cloud-zoom-gallery").click(function() {
+				$("#zoom-btn").attr('href', $(this).attr('href'));
+				$("#zoom-btn").attr('title', $(this).attr('title'));
+			
+				<?php if ($helpZoom->getCfg('lightbox/group')): //Erase class from clicked thumbnail ?>
+					$(".cloud-zoom-gallery").each(function() {
+						$(this).addClass("cboxElement");
+					});
+					$(this).removeClass("cboxElement");
+				<?php endif; ?>
+			});
+            
+        });
+    </script>
+<?php endif; ?>

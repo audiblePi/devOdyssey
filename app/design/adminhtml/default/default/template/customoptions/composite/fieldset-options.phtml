@@ -1,0 +1,719 @@
+<?php
+/**
+ * MageWorx
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the MageWorx EULA that is bundled with
+ * this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.mageworx.com/LICENSE-1.0.html
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade the extension
+ * to newer versions in the future. If you wish to customize the extension
+ * for your needs please refer to http://www.mageworx.com/ for more information
+ *
+ * @category   MageWorx
+ * @package    MageWorx_CustomOptions
+ * @copyright  Copyright (c) 2014 MageWorx (http://www.mageworx.com/)
+ * @license    http://www.mageworx.com/LICENSE-1.0.html
+ */
+
+/**
+ * Advanced Product Options extension
+ *
+ * @category   MageWorx
+ * @package    MageWorx_CustomOptions
+ * @author     MageWorx Dev Team
+ */
+
+ /* @var $this Mage_Adminhtml_Block_Catalog_Product_Composite_Fieldset_Options */
+$options = Mage::helper('core')->decorateArray($this->getOptions());
+$helper = Mage::helper('customoptions');
+if (count($options)): ?>
+    <style type="text/css">
+        .option div.container-swatch-color {
+            display:inline-block;
+            width:<?php echo $helper->getImagesThumbnailsSize(); ?>px; 
+            height:<?php echo $helper->getImagesThumbnailsSize(); ?>px;
+        }
+    </style>
+    
+    <?php echo $this->getChildHtml('options_js') ?>        
+    <script type="text/javascript">
+        <?php if ($helper->isTierPriceEnabled()) { ?>        
+            optionTierPricesData = [];
+        <?php } ?>
+        opConfig = {'config':<?php echo $helper->getOptionsJsonConfig($this->getOptions()) ?>};
+        
+        // set qty product from option
+        optionSetQtyProduct = {
+            setQty: function() {
+                if (!$('product_composite_configure_input_qty')) {
+                    setTimeout('optionSetQtyProduct.setQty()', 500);
+                    return;
+                }                
+                var totalQty = 0;
+                var elArr = $$("input[id^='options_']:checked", "select[id^='select_']");
+                
+                if (elArr.length>0) {
+                    elArr.each(function(el) {
+                        var elIdArr = el.id.split('_');
+                        var optionId = 0;
+                    	if (elIdArr[1]) optionId = elIdArr[1];
+                        
+                        var elValueArr = [];
+                        if (el.multiple) {
+                            for (i=0; i < el.options.length; i++) {
+                                if (el.options[i].selected) elValueArr.push(el.options[i].value);
+                            }
+                        } else {
+                            elValueArr.push(el.value);
+                        }
+                        elValueArr.each(function(valueId) {
+                            if (optionId && opConfig.config[optionId] && opConfig.config[optionId][valueId] && opConfig.config[optionId][valueId].x_qty) {
+                                if ($('options_'+optionId+'_qty')) {
+                                    var optionQty = parseInt($('options_'+optionId+'_qty').value);
+                                } else if ($('options_'+optionId+'_'+valueId+'_qty')) {
+                                    var optionQty = parseInt($('options_'+optionId+'_' + valueId + '_qty').value);
+                                } else {
+                                    var optionQty = 1;
+                                }
+                                totalQty += opConfig.config[optionId][valueId].x_qty * optionQty;
+                            }
+                        }.bind(this));
+                    }.bind(this));
+                }
+                if (totalQty==0) totalQty = 1;
+                if ($('product_composite_configure_input_qty').value!=totalQty) this.setTotalQty(totalQty);                
+            },
+            setTotalQty: function(qty) {
+                $('product_composite_configure_input_qty').value = qty;
+            },
+            hideQty: function() {
+                if (!$('product_composite_configure_input_qty')) {
+                    setTimeout('optionSetQtyProduct.hideQty()', 100);
+                    return;
+                }                
+                //$('product_composite_configure_input_qty').previous('label').style.visibility = 'hidden';
+                //$('product_composite_configure_input_qty').style.visibility = 'hidden';
+                $('product_composite_configure_input_qty').writeAttribute('readonly', 'readonly');
+            },
+            checkboxQty: function(el) {
+                var elIdArr = el.id.split('_');
+                var optionId = 0;
+                if (elIdArr[1]) optionId = elIdArr[1];
+                
+                var elQty = $('options_'+ optionId +'_'+ el.value +'_qty');
+                if (!elQty) return;
+                elQty.disabled=!el.checked;
+                
+                if (el.checked) {
+                    if (elQty.value<=0) elQty.value = 1;
+                    $(elQty).addClassName('validate-greater-than-zero');
+                } else {
+                    elQty.value = 0;
+                    $(elQty).removeClassName('validate-greater-than-zero');
+                }
+            },
+            multiSwatchQty: function(optionId, valueId, selected) {
+                var elQty = $('options_'+ optionId +'_'+ valueId +'_qty');
+                if (!elQty) return;
+                elQty.disabled = !selected;
+                
+                if (selected) {
+                    if (elQty.value<=0) elQty.value = 1;
+                    $(elQty).addClassName('validate-greater-than-zero');
+                } else {
+                    elQty.value = 0;
+                    $(elQty).removeClassName('validate-greater-than-zero');
+                }
+            },
+            // limit qty functions:
+            limitQtyData: {},
+            setLimitQty: function(el) {
+                var elIdArr = el.id.split('_');
+                var optionId = 0;
+                if (elIdArr[1]) optionId = elIdArr[1];
+
+                var elValueArr = [];
+                if (el.multiple) {
+                    for (i=0; i < el.options.length; i++) {
+                        if (el.options[i].selected) elValueArr.push(el.options[i].value);
+                    }
+                } else {
+                    elValueArr.push(el.value);
+                }
+                elValueArr.each(function(valueId) {
+                    if (optionId && opConfig.config[optionId] && opConfig.config[optionId][valueId] && opConfig.config[optionId][valueId].l_qty) {
+                        var limit = parseInt(opConfig.config[optionId][valueId].l_qty);
+                        if (dependentOptions && dependentOptions.dependentData[valueId]) {
+                            dependentOptions.dependentData[valueId].each(function(IGI){
+                                if (dependentOptions.inGroupIdData[IGI]) {
+                                    for(var dElementId in dependentOptions.inGroupIdData[IGI]) {
+                                        if (dElementId!='dependency' && dElementId!='out_of_stock' && dElementId!='view_mode' && $(dElementId)) {
+                                            var elIdArr = dElementId.split('_');
+                                            var dOptionId = 0;
+                                            if (elIdArr[1]) dOptionId = elIdArr[1];
+                                            this.limitQtyData[dOptionId] = limit; // set limit
+                                            this.checkLimitQty(dOptionId);
+                                        }
+                                    }
+                                }
+                            }.bind(this));
+                        }
+                    }
+                }.bind(this));
+            },
+            checkLimitQty: function(optionId, changedEl) {
+                if (!optionId) return;
+                
+                var limit = 0;
+                if (this.limitQtyData[optionId]) limit = this.limitQtyData[optionId];
+                if (opConfig.config[optionId] && opConfig.config[optionId].max_characters) {
+                    if (limit==0 || limit>opConfig.config[optionId].max_characters) limit = opConfig.config[optionId].max_characters;
+                }
+                if (limit==0) return;
+                
+                var totalQty = 0;
+                var elArr = $$("input[id^='options_"+ optionId +"_']:checked", "select[id='select_"+ optionId +"']", "textarea[id='options_"+ optionId +"_text']", "input[id='options_"+ optionId +"_text']");
+                
+                if (elArr.length>0) {
+                    elArr.each(function(el) {
+                        var elIdArr = el.id.split('_');
+                        var optionId = 0;
+                    	if (elIdArr[1]) optionId = elIdArr[1];
+                        
+                        var elValueArr = [];
+                        if (el.multiple) {
+                            for (i=0; i < el.options.length; i++) {
+                                if (el.options[i].selected) elValueArr.push(el.options[i].value);
+                            }
+                        } else {
+                            if (el.value) elValueArr.push(el.value);
+                        }
+                        elValueArr.each(function(valueId) {
+                            if ($('options_'+optionId+'_qty')) {
+                                var optionQty = parseInt($('options_'+optionId+'_qty').value);
+                            } else if ($('options_'+optionId+'_'+valueId+'_qty')) {
+                                var optionQty = parseInt($('options_'+optionId+'_' + valueId + '_qty').value);
+                            } else if ($('options_'+ optionId +'_text')) {
+                                var optionQty = $('options_'+ optionId +'_text').value.length;
+                            } else {
+                                var optionQty = 1;
+                            }
+                            totalQty += optionQty;
+                        }.bind(this));
+                    }.bind(this));
+                }
+                
+                
+                var restQty = limit - totalQty;
+                if ($('total_limit_' + optionId)) $('total_limit_' + optionId).innerHTML = limit - totalQty;
+                if (restQty<0 && changedEl) {
+                    if (parseInt(changedEl)>0) {
+                        // swatch uncheck
+                        optionSwatch.select(optionId, changedEl);
+                    } else if ($(changedEl).hasClassName('qty')) {
+                        var qty = parseInt(changedEl.value);
+                        qty = qty + restQty;
+                        if (qty<1) qty = 1;
+                        changedEl.value = qty;
+                        $(changedEl).onchange();
+                    } else if ($(changedEl).hasClassName('checkbox')) {
+                        $(changedEl).click();
+                    } else if ($(changedEl).hasClassName('input-text') || $(changedEl).hasClassName('text-area')) {
+                        // text
+                        changedEl.value = changedEl.value.substr(0, limit);
+                    }
+                    this.checkLimitQty(optionId, false);
+                }
+            }
+        };
+        
+        // swatch class
+        optionSwatch = {
+            select: function(optionId, optionValueId) {
+                var el = $('swatch_' + optionValueId);
+                if (el && $(el).hasClassName('swatch-disabled')) return false;
+                // change value
+                var el = $('select_' + optionId);
+                if (!el) return;
+                for (i=0; i < el.options.length; i++) {
+                    if (el.options[i].value && el.options[i].value==optionValueId) {
+                        el.options[i].selected = !el.options[i].selected;
+                    }
+                }
+                $(el).onchange();
+            },
+            change:function(el) {
+                if (!el || !el.id) return;
+                optionId = el.id.replace('select_', '');
+                
+                //change border
+                var ul = $('ul_swatch_' + optionId);
+                if (!ul) return;
+                
+                var span = $('span_swatch_' + optionId);
+                if (span) span.remove();
+                
+                <?php if ($helper->isDependentEnabled()) { ?>
+                // dependent
+                var lis = ul.getElementsByTagName('li');
+                for (i=0; i < lis.length; i++) {
+                    lis[i].hide();
+                    $(lis[i]).addClassName('swatch-disabled');
+                }
+                for (i=0; i < el.options.length; i++) {
+                    if (el.options[i].value) {
+                        var li = $('swatch_' + el.options[i].value);
+                        if (li) {
+                            li.show();
+                            if (el.disabled==false && el.options[i].disabled==false) $(li).removeClassName('swatch-disabled');
+                        }
+                    }
+                }
+                <?php } ?>
+                
+                var noteText = [];
+                for (i=0; i < el.options.length; i++) {
+                    if (el.options[i].value) {
+                        var li = $('swatch_' + el.options[i].value);
+                        if (li) {                            
+                            if (el.options[i].selected) {
+                                var swatchEl = li.down('.swatch');
+                                if (swatchEl) swatchEl.removeClassName('swatch').addClassName('swatch-selected');
+                                // change title
+                                if (el.options[i].text!='') {
+                                    noteText.push(el.options[i].text);
+                                }
+                            } else {
+                                var swatchEl = li.down('.swatch-selected');
+                                if (swatchEl) swatchEl.removeClassName('swatch-selected').addClassName('swatch');
+                            }
+                            optionSetQtyProduct.multiSwatchQty(optionId, el.options[i].value, el.options[i].selected);
+                        }
+                    }
+                }
+                if (noteText.length>0) {
+                    var dtEl = ul.up('dl').down('dt');
+                    var pNoteEl = dtEl.down('p.note');
+                    var tagtipEl = dtEl.down('div.tagtip-question');
+                    var spanSwatch  = '<span id="span_swatch_' + optionId + '"> - ' + noteText.join(', ') + '</span>';
+                    if (pNoteEl) {
+                        Element.insert($(pNoteEl), {'before':spanSwatch});
+                    } else if (tagtipEl) {
+                        Element.insert($(tagtipEl), {'after':spanSwatch});
+                    } else {
+                        dtEl.innerHTML += spanSwatch;
+                    }
+                }
+                optionSetQtyProduct.setQty();
+            }
+        };
+        
+        // images class
+        optionImages = {
+            showImage: function(el) {
+                if (!el) return;
+                
+                var elIdArr = el.id.split('_');
+                var optionId = 0;
+                if (elIdArr[1]) optionId = elIdArr[1];
+                
+                var elValueArr = [];                    
+                if (el.multiple) {
+                    for (i=0; i < el.options.length; i++) {
+                        if (el.options[i].selected) elValueArr.push(el.options[i].value);
+                    }
+                } else {
+                    elValueArr.push(el.value);
+                }
+                
+                if (!opConfig.config[optionId]) return;
+                var imageHTML = '';
+                
+                // beside option variant
+                var imageBox = $('customoptions_images_' + optionId);
+                if (!imageBox) return;
+
+                imageBox.hide();
+                elValueArr.each(function(optionValueId) {
+                    if (optionValueId!='' && opConfig.config[optionId][optionValueId] && opConfig.config[optionId][optionValueId].images) {
+                        opConfig.config[optionId][optionValueId].images.each(function(image) {
+                            if (image[1]) {
+                                imageHTML += '<a href="'+image[1]+'" rel="mageworxLightbox[]" title="">'+
+                                    '<img src="'+image[0]+'" title="" class="small-image-preview v-middle" />'+
+                                '</a>';
+                            } else {
+                                imageHTML += '<div class="container-swatch-color small-image-preview v-middle"">'+
+                                    '<div class="swatch-color" style="background:' + image[0] + ';">&nbsp;</div>'+
+                                '</div>';
+                            }                        
+                        }.bind(this));
+                    }
+                }.bind(this));
+                imageBox.innerHTML = imageHTML;
+                imageBox.show();
+                
+            }
+        };  
+        
+    <?php 
+        //copy from /app/design/frontend/default/default/template/customoptions/catalog-product-view-options.phtml with remove "var"
+        if ($helper->isDependentEnabled()) {             
+    ?>
+            dependentOptions = {
+                dependentData: <?php echo $helper->getJsonDependentData($this->getOptions()) ?>,
+                inGroupIdData: <?php echo $helper->getJsonInGroupIdData($this->getOptions()) ?>,
+                defaultData: <?php echo $helper->getJsonDefaultData($this->getOptions()) ?>,
+                
+                dependentChanges: {"m":[], "d":[]},
+                dependentHide: <?php if ($helper->hideDependentOption()) echo 'true'; else echo 'false'; ?>,
+                select: function(el) {
+                    var i, ii = 0;                    
+                    if (el.type=='radio') {
+                        var radios = this.upDiv(el).getElementsByClassName('radio');
+                        for (i=0; i < radios.length; i++) {
+                            this.returnSelect(radios[i]);
+                        }                        
+                    } else {
+                        this.returnSelect(el);
+                    }
+                    
+                    if (el.type && el.type=='checkbox' && !el.checked) {
+                        this.decorateIsLast();
+                        return false;
+                    }
+                    if (el.disabled) return false;
+                    if (el.value>0) {
+                        // prepare value
+                        var elValueArr = [];
+                        if (el.multiple) {
+                            for (i=0; i < el.options.length; i++) {
+                                if (el.options[i].selected) elValueArr.push(el.options[i].value);
+                            }
+                        } else {
+                            elValueArr.push(el.value);
+                        }
+                        var mElementId = el.id;
+                        var dSelects = [];
+                        var isRequire = false;
+                        for (i=0; i < elValueArr.length; i++) {
+                            if (!this.dependentData[elValueArr[i]]) continue;                            
+                            this.dependentData[elValueArr[i]].each(function(IGI){
+                                if (this.inGroupIdData[IGI]) {                                    
+                                    for(var dElementId in this.inGroupIdData[IGI]) {
+                                        if (dElementId!='dependency' && dElementId!='out_of_stock' && dElementId!='view_mode' && $(dElementId)) {
+                                            if (this.inGroupIdData[IGI][dElementId]) {
+                                                
+                                                var dElement = $(dElementId);
+                                                if (!this.dependentChanges['m'][mElementId]) this.dependentChanges['m'][mElementId] = [];
+                                                if (!this.dependentChanges['m'][mElementId][dElementId]) this.dependentChanges['m'][mElementId][dElementId] = [];
+                                                this.dependentChanges['m'][mElementId][dElementId]['disabled'] = true;
+                                                if (this.dependentChanges['m'][mElementId][dElementId]['is_require']) {
+                                                    isRequire = true;
+                                                } else {
+                                                    isRequire = $(dElement).hasClassName('required-dependent');
+                                                }
+                                                this.dependentChanges['m'][mElementId][dElementId]['is_require'] = isRequire;
+                                                
+                                                if (!this.dependentChanges['d'][dElementId]) this.dependentChanges['d'][dElementId] = [];
+                                            
+                                                if ((dElement.type=='select-one' || dElement.type=='select-multiple') && !$(dElement).hasClassName('datetime-picker')) {
+                                                    // if [multi]select
+                                                    var selectValue = 's'+this.inGroupIdData[IGI][dElementId];
+                                                    // if el not modified -> backup default options and clear
+                                                    if (!this.dependentChanges['d'][dElementId]['options']) {
+                                                        this.dependentChanges['d'][dElementId]['options'] = [];
+                                                        var opSelected = false;
+                                                        for (ii=0; ii < dElement.options.length; ii++) {
+                                                            if (this.defaultData[dElementId] && (this.defaultData[dElementId]==dElement.options[ii].value || this.defaultData[dElementId][dElement.options[ii].value])) opSelected = true; else opSelected = false;
+                                                            if (dElement.options[ii].value) this.dependentChanges['d'][dElementId]['options']['s'+dElement.options[ii].value] = {'text':dElement.options[ii].text, 'selected':opSelected, 'sel-def':opSelected, 'disabled':dElement.options[ii].disabled};
+                                                        }
+                                                        if (dElement.multiple) dElement.length = 0; else dElement.length = 1; // clear select
+                                                    }
+                                                    if (this.dependentChanges['d'][dElementId]['options'][selectValue]) {
+                                                        // set [multi]select flag use
+                                                        if (!this.dependentChanges['d'][dElementId]['options'][selectValue]['use']) this.dependentChanges['d'][dElementId]['options'][selectValue]['use'] = [];
+                                                        this.dependentChanges['d'][dElementId]['options'][selectValue]['use'].push(mElementId);
+                                                        this.dependentChanges['d'][dElementId]['options'][selectValue]['dependency'] = this.inGroupIdData[IGI].dependency;
+                                                        
+                                                        // commit changes
+                                                        if (!this.dependentChanges['m'][mElementId][dElementId]['options']) this.dependentChanges['m'][mElementId][dElementId]['options'] = [];
+                                                        this.dependentChanges['m'][mElementId][dElementId]['options'].push(selectValue);
+                                                    }
+                                                } else {
+                                                    // if radio, checkbox, text, etc.
+                                                    if (!this.dependentChanges['d'][dElementId]['use']) this.dependentChanges['d'][dElementId]['use'] = [];
+                                                    this.dependentChanges['d'][dElementId]['use'].push(mElementId);
+                                                    this.dependentChanges['d'][dElementId]['dependency'] = this.inGroupIdData[IGI].dependency;
+                                                }
+                                                
+                                                if ((this.dependentChanges['d'][dElementId]['use'] && this.dependentChanges['d'][dElementId]['use'].length >= this.inGroupIdData[IGI].dependency) || ((dElement.type=='select-one' || dElement.type=='select-multiple') && this.dependentChanges['d'][dElementId]['options'][selectValue] && this.dependentChanges['d'][dElementId]['options'][selectValue]['use'].length >= this.inGroupIdData[IGI].dependency)) {
+                                                    // set visibility
+                                                    if (!this.inGroupIdData[IGI].out_of_stock) dElement.disabled = false;
+                                                    if (this.dependentHide && this.inGroupIdData[IGI].view_mode!=2) {
+                                                        if (dElement.type=='checkbox' || dElement.type=='radio') {
+                                                            $(dElement).up('li').style.display = 'block';
+                                                        }
+                                                        dependentOptions.upDiv(dElement).style.display = 'block';
+                                                    }
+                                                    // set class required-entry
+                                                    if (isRequire) {
+                                                        $(dElement).removeClassName('required-dependent');
+                                                        if (dElement.type=='checkbox' || dElement.type=='radio') {
+                                                            $(dElement).addClassName('validate-one-required-by-name');
+                                                        } else {
+                                                            $(dElement).addClassName('required-entry');
+                                                        }    
+                                                    }
+                                                    // add or init dependent element
+                                                    if ((dElement.type=='select-one' || dElement.type=='select-multiple') && !$(dElement).hasClassName('datetime-picker')) {
+                                                        // if [multi]select
+                                                        var selectValue = 's'+this.inGroupIdData[IGI][dElementId];
+                                                        if (this.dependentChanges['d'][dElementId]['options'][selectValue]) {
+                                                            dSelects.push(dElement); // after add data to this [multi]select
+                                                        }
+                                                    } else {
+                                                        // if radio, checkbox, text, etc.
+                                                        if (this.defaultData[dElementId] && ($(dElementId).type=='checkbox' || $(dElementId).type=='radio') && this.inGroupIdData[IGI].dependency==this.dependentChanges['d'][dElementId]['use'].length) $(dElementId).click();
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }.bind(this));
+                        }
+                        if (dSelects.length>0) {
+                            for (i=0; i < dSelects.length; i++) {
+                                var dElement = dSelects[i];
+                                var dElementId = dElement.id;
+                                // add data to [multi]select
+                                this.rememberNewSelected(dElement, dElementId);
+                                if (dElement.multiple) dElement.length = 0; else dElement.length = 1; // clear select                                
+                                for(var opValue in this.dependentChanges['d'][dElementId]['options']) {
+                                    if (!this.dependentChanges['d'][dElementId]['options'].hasOwnProperty(opValue) || !this.dependentChanges['d'][dElementId]['options'][opValue] || !this.dependentChanges['d'][dElementId]['options'][opValue]['use'] || this.dependentChanges['d'][dElementId]['options'][opValue]['use'].length < this.dependentChanges['d'][dElementId]['options'][opValue]['dependency']) continue;
+                                    var newOpt = new Option(this.dependentChanges['d'][dElementId]['options'][opValue]['text'], opValue.substr(1));
+                                    newOpt.disabled = this.dependentChanges['d'][dElementId]['options'][opValue]['disabled'];
+                                    if (this.dependentChanges['d'][dElementId]['options'][opValue]['selected']) {
+                                        newOpt.selected = true;
+                                        //if (!newOpt.disabled) setTimeout('dependentOptions.select($("'+dElementId+'"));', '100');
+                                    }
+                                    dElement.options.add(newOpt);
+                                }
+                                dElement.onchange();
+                            }
+                        }
+                        this.decorateIsLast();
+                    }
+                },
+                // cancel changes and return default options params
+                returnSelect: function(el) {
+                    var mElementId = el.id;
+                    var i = 0;
+                    if (this.dependentChanges['m'][mElementId] && !this.dependentChanges['m'][mElementId]['is_used']) {
+                        this.dependentChanges['m'][mElementId]['is_used'] = true;
+                        for(var dElementId in this.dependentChanges['m'][mElementId]) {
+                            if (!this.dependentChanges['m'][mElementId].hasOwnProperty(dElementId) || dElementId=='is_used' || !$(dElementId)) continue;
+                            var dElement = $(dElementId);
+                            var disableElFlag = true;
+                            // disable dependent el
+                            if (this.dependentChanges['m'][mElementId][dElementId]['disabled']) {
+                                
+                                if (this.dependentChanges['m'][mElementId][dElementId]['options'] && this.dependentChanges['d'][dElementId]['options']) {
+                                    // to [multi]select                                    
+                                    this.rememberNewSelected(dElement, dElementId);
+                                    
+                                    // remove options if not use main el
+                                    for (i=0; i < this.dependentChanges['m'][mElementId][dElementId]['options'].length; i++) {
+                                        opValue = this.dependentChanges['m'][mElementId][dElementId]['options'][i];
+                                        
+                                        if (this.dependentChanges['d'][dElementId]['options'][opValue] && this.dependentChanges['d'][dElementId]['options'][opValue]['use'] && this.dependentChanges['d'][dElementId]['options'][opValue]['use'].length>0) {
+                                            this.dependentChanges['d'][dElementId]['options'][opValue]['use'] = this.dependentChanges['d'][dElementId]['options'][opValue]['use'].without(mElementId);
+                                            if (this.dependentChanges['d'][dElementId]['options'][opValue]['use'].length < this.dependentChanges['d'][dElementId]['options'][opValue]['dependency']) {
+                                                $$("#"+dElementId+" option[value='"+opValue.substr(1)+"']").each(function(elOp){
+                                                    <?php if ($helper->isTierPriceEnabled()) { ?>
+                                                        if (elOp.value && $('option_tier_prices_'+elOp.value)) {
+                                                            $('option_tier_prices_'+elOp.value).remove();
+                                                        }
+                                                    <?php } ?>
+                                                    elOp.remove();
+                                                });
+                                            } else {
+                                                disableElFlag = false;
+                                            }
+                                        }
+                                    }
+                                    if (disableElFlag && (dElement.length>1 || (dElement.multiple && dElement.length>0))) disableElFlag = false;
+                                    dElement.onchange();
+                                } else {                                    
+                                    // to radio, checkbox, text, etc.
+                                    if (this.dependentChanges['d'][dElementId]['use'] && this.dependentChanges['d'][dElementId]['use'].length > 0) {                                        
+                                        this.dependentChanges['d'][dElementId]['use'] = this.dependentChanges['d'][dElementId]['use'].without(mElementId);
+                                        if (this.dependentChanges['d'][dElementId]['use'].length >= this.dependentChanges['d'][dElementId]['dependency']) disableElFlag = false;
+                                    }
+                                }
+                                if (disableElFlag) {
+                                    dElement.disabled = true;
+                                    optionImages.showImage(dElement);
+                                    
+                                    // restore default if [multi]select
+                                    if ((dElement.type=='select-one' || dElement.type=='select-multiple') && !$(dElement).hasClassName('datetime-picker')) {
+                                        for(var opValue in this.dependentChanges['d'][dElementId]['options']) {
+                                            if (!this.dependentChanges['d'][dElementId]['options'].hasOwnProperty(opValue) || !this.dependentChanges['d'][dElementId]['options'][opValue]) continue;
+                                            var newOpt = new Option(this.dependentChanges['d'][dElementId]['options'][opValue]['text'], opValue.substr(1));
+                                            newOpt.disabled = this.dependentChanges['d'][dElementId]['options'][opValue]['disabled'];
+                                            newOpt.selected = this.dependentChanges['d'][dElementId]['options'][opValue]['sel-def'];
+                                            dElement.options.add(newOpt);
+                                        }
+                                        dElement.onchange();
+                                    }
+                                    
+                                    // hide
+                                    if (this.dependentHide) {
+                                        var hideDivFlag = true;
+                                        if (dElement.type=='checkbox' || dElement.type=='radio') {
+                                            $(dElement).up('li').style.display = 'none';
+                                            ulEl = $(dElement).up('li').up('ul');
+                                            if (ulEl) {
+                                                lis = ulEl.getElementsByTagName('li');
+                                                for (i=0; i < lis.length; i++) {
+                                                    if (lis[i].style.display=='block') {
+                                                        hideDivFlag = false;
+                                                        break;
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        if (hideDivFlag) this.upDiv(dElement).style.display = 'none';
+                                    }
+                                    
+                                    // require
+                                    if (this.dependentChanges['m'][mElementId][dElementId]['is_require']) {
+                                        if (dElement.type=='checkbox' || dElement.type=='radio') {
+                                            $(dElement).removeClassName('validate-one-required-by-name');
+                                        } else {
+                                            $(dElement).removeClassName('required-entry');
+                                        }                                
+                                        $(dElement).addClassName('required-dependent');
+                                    }
+                                }
+                            }
+                            // return dependent->dependent etc..
+                            if (disableElFlag && (dElement.type=='checkbox' || dElement.type=='radio') && dElement.checked) {
+                                dElement.checked = false;
+                                if (dElement.type=='checkbox') optionSetQtyProduct.checkboxQty(dElement);
+                                dependentOptions.returnSelect(dElement);
+                            } else if ((dElement.type=='select-one' || dElement.type=='select-multiple') && !$(dElement).hasClassName('datetime-picker')) {
+                                dependentOptions.select(dElement); // that's right!
+                            } else if (disableElFlag && (dElement.type=='text' || dElement.type=='textarea' || dElement.type=='file')) {
+                                if (this.defaultData[dElementId]) dElement.value = this.defaultData[dElementId]; else dElement.value = '';
+                            }                            
+                        }
+                        delete this.dependentChanges['m'][mElementId];
+                    }    
+                },
+                rememberNewSelected: function(dElement, dElementId) {
+                    // remember new selected
+                    if (this.dependentChanges['d'][dElementId] && this.dependentChanges['d'][dElementId]['options']) {
+                        var opSelected = false;
+                        for (i=0; i < dElement.options.length; i++) {
+                            if (this.dependentChanges['d'][dElementId]['options']['s'+dElement.options[i].value]) {
+                                if (dElement.options[i].selected && dElement.options[i].value>0) opSelected = true; else opSelected = false;
+                                this.dependentChanges['d'][dElementId]['options']['s'+dElement.options[i].value]['selected'] = opSelected;
+                            }
+                        }
+                    }
+                },
+                // for ie to work
+                upDiv: function(el) {   
+                    if (el.type=='checkbox' || el.type=='radio') {
+                        var div = el.up(4);
+                        if (!$(div).hasClassName('option')) div = div.up(1);
+                        return div;
+                    } else {
+                        return el.up('div.option');
+                    }
+                },
+                
+                decorateIsLast: function() {            
+                    var divs = $$('div.option');
+                    if (divs) {
+                        var dl = false;
+                        var dd = false;
+                        divs.each(function(div, index){
+                            if (div.style.display!='none' && !$(div).hasClassName('hidden')) {
+                                dl = div.down('dl');
+                                if (dl) {
+                                    if ($(dl).hasClassName('last')) $(dl).removeClassName('last');
+                                    dd = dl.down('dd');
+                                    if (dd && $(dd).hasClassName('last')) $(dd).removeClassName('last');
+                                }
+                            }
+                        }.bind(this));
+                        if (dl) $(dl).addClassName('last');
+                        if (dd) $(dd).addClassName('last');
+                    }
+                },
+                
+                applyDefaultValues: function(el) {            
+                    for(var elementId in this.defaultData) {
+                        if (!this.defaultData.hasOwnProperty(elementId)) continue;
+                        if ($(elementId) && this.upDiv($(elementId)) && this.upDiv($(elementId)).style.display!="none") {                    
+                            this.returnSelect($(elementId));
+                            if ($(elementId).type=='select-one' || $(elementId).type=='text' || $(elementId).type=='textarea') {
+                                $(elementId).value = this.defaultData[elementId];
+                            } else if ($(elementId).type=='select-multiple') {
+                                el = $(elementId);
+                                for (i=0; i < el.options.length; i++) {
+                                    if (this.defaultData[elementId][el.options[i].value]) el.options[i].selected = true;
+                                }
+                            } else if ($(elementId).type=='checkbox' || $(elementId).type=='radio') {
+                                if ($(elementId).checked!=true) $(elementId).click();
+                            }    
+                            this.select($(elementId));
+                        }
+                    }                     
+                }
+                
+            };
+    <?php } ?>
+    </script>
+
+    <div id="product_composite_configure_fields_options" class="<?php echo $this->getIsLastFieldset() ? 'last-fieldset' : '' ?>">
+        <h4><?php echo Mage::helper('catalog')->__('Custom Options') ?></h4>
+        <div class="product-options">
+            <?php foreach($options as $option): ?>
+                <?php echo $this->getOptionHtml($option); ?>
+            <?php endforeach;?>
+        </div>
+    </div>
+    
+    <script type="text/javascript">
+        // apply edit or options default            
+        $$("select[id^='select_'].product-custom-option").each(function(element){
+            element.onchange();
+        });
+        
+        $$("input[id^='options_'].product-custom-option:checked").each(function(element) {
+            element.onclick();
+        });
+        
+        <?php if ($helper->isDependentEnabled()) { ?>               
+            // apply edit or options default
+            dependentOptions.applyDefaultValues();
+            dependentOptions.decorateIsLast();
+        <?php } ?>
+        
+        <?php if ($this->getProduct()->getIsXQtyEnabled()) { ?>
+            optionSetQtyProduct.hideQty();
+            optionSetQtyProduct.setQty();
+        <?php } ?>
+            
+    </script>
+
+<?php endif; ?>

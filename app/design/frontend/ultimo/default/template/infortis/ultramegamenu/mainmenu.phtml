@@ -1,0 +1,243 @@
+<?php
+/**
+ * $this->renderCategoriesMenuHtml() supports optional arguments:
+ * bool Add openers if menu is used as accordion
+ * int Level number for list item class to start from
+ * string Extra class of outermost list items
+ * string If specified wraps children list in div with this class
+ */
+?>
+<?php
+    $helper = Mage::helper('ultramegamenu');
+?>
+<?php if ($helper->getCfg('general/enable')): ?>
+
+    <?php
+        $mode = $helper->getCfg('general/mode');
+        // -1   = mobile menu only
+        // 0    = both
+        // 1    = drop-down menu only
+        
+        $categories = $helper->getCfg('general/categories');
+        $linksHtml = $this->getChildHtml('block_nav_links');
+        
+        $menuCss = array();
+        if ($helper->getCfg('mainmenu/classic_menu'))
+        {
+            $menuCss[] = 'classic';
+        }
+        if ($helper->getCfg('mainmenu/wide_menu'))
+        {
+            $menuCss[] = 'wide';
+        }
+    ?>
+
+
+
+    <?php //Mobile main menu %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% ?>
+
+    <?php if (($mode <= 0) && ($categories || $linksHtml)): //Mode: mobile or both ?>
+
+        <div id="mobnav" class="grid-full">
+            <a id="mobnav-trigger" href="">
+                <span class="trigger-icon"><span class="line"></span><span class="line"></span><span class="line"></span></span>
+                <span><?php echo $this->__('Menu'); ?></span>
+            </a>
+        </div>
+
+        <ul class="accordion vertnav vertnav-top grid-full">
+        
+            <?php //Categories ?>
+            <?php if ($categories): ?>
+                <?php echo $this->renderCategoriesMenuHtml(TRUE, 0, 'level-top'); ?>
+            <?php endif; ?>
+            
+            <?php //Custom links ?>
+            <?php echo $linksHtml; ?>
+
+        </ul>
+
+    <?php endif; ?>
+
+
+
+    <?php //Drop-down main menu %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% ?>
+
+    <?php if ($mode >= 0): //Mode: drop-down or both ?>
+
+        <ul id="nav" class="grid-full<?php if($menuCss) echo " " . implode(" ", $menuCss); ?>">
+        
+            <?php //Single home link icon ?>
+            <?php if ($helper->getCfg('mainmenu/home_link_icon')): ?>
+                <?php
+                    //Home link icon suffix
+                    $suffix = $helper->getSingleHomelinkIconSuffix();
+                ?>
+                <li id="homelink-icon" class="level0 level-top">
+                    <a class="level-top feature feature-icon-hover" href="<?php echo $this->getBaseUrl(); ?>"><span class="icon i-home<?php echo $suffix; ?> force-no-bg-color"></span></a>
+                </li>
+            <?php endif; ?>
+
+            <?php //Home link displayed inside menu item ?>
+            <?php if ($helper->getCfg('mainmenu/home') || $helper->getCfg('mainmenu/home_img')): ?>
+                <?php
+                    $homeLinkWrapperClass = '';
+                    $homeLinkClass = '';
+                    $homeLinkText = '';
+                    $homeLinkImg = '';
+                    
+                    //If home link with image
+                    if ($helper->getCfg('mainmenu/home_img'))
+                    {
+                        //Home link icon suffix
+                        $suffix = $helper->getHomeIconSuffix();
+                    
+                        $homeLinkWrapperClass = 'nav-home-img';
+                        $homeLinkClass = 'feature feature-icon-hover';
+                        $homeLinkImg = '<span class="icon i-home' . $suffix . '"></span>';
+                    }
+                    
+                    //If home link with text
+                    if ($helper->getCfg('mainmenu/home'))
+                    {
+                        $homeLinkText = '<span>' . $this->__('Home') . '</span>';
+                    }
+                ?>
+                <li id="nav-home" class="<?php echo $homeLinkWrapperClass; ?> level0 level-top">
+                    <a class="level-top feature feature-icon-hover" href="<?php echo $this->getBaseUrl(); ?>"><?php echo $homeLinkImg, $homeLinkText; ?></a>
+                </li>
+            <?php endif; ?>
+            
+            <?php //Categories ?>
+            <?php if ($categories): ?>
+                <?php echo $this->renderCategoriesMenuHtml(FALSE, 0, 'level-top'); ?>
+            <?php endif; ?>
+        
+            <?php //Static block as a drop-down box ?>
+            <?php if ($tmpHtml = $this->getChildHtml('block_header_nav_dropdown')): ?>
+                <li class="nav-custom-link level0 level-top parent<?php if ($helper->getCfg('mainmenu/custom_block_floating')) echo ' right last'; ?>">
+                    <?php // Get the block title, and display it as tab title
+                        $blockTitle = Mage::getModel('cms/block')
+                            ->setStoreId(Mage::app()->getStore()->getId())
+                            ->load('block_header_nav_dropdown')
+                            ->getTitle();
+                    ?>
+                    <a class="level-top" href="#"><span><?php echo $blockTitle; ?></span><span class="caret">&nbsp;</span></a>
+                    <div class="level0-wrapper">
+                            <div class="header-nav-dropdown-wrapper clearer"><?php echo $tmpHtml; ?></div>
+                    </div>
+                </li>
+            <?php endif; ?>
+            
+            <?php //Custom links ?>
+            <?php echo $linksHtml; ?>
+            
+        </ul>
+
+    <?php endif; ?>
+
+
+
+    <?php //Activate mobile menu %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% ?>
+
+    <?php if ($mode <= 0): //Mode: mobile or both ?>
+
+        <script type="text/javascript">
+        //<![CDATA[
+
+                <?php if ($mode == 0): //Mode: both ?>
+        
+                    <?php $threshold = intval($helper->getCfg('mobilemenu/threshold')); ?>
+                    var activateMobileMenu = function()
+                    {
+                        if (jQuery(window).width() < <?php echo $threshold; ?>)
+                        {
+                            jQuery('#mobnav').show();
+                            jQuery('.vertnav-top').addClass('mobile');
+                            jQuery('#nav').addClass('mobile');
+                        }
+                        else
+                        {
+                            jQuery('#nav').removeClass('mobile');
+                            jQuery('.vertnav-top').removeClass('mobile');
+                            jQuery('#mobnav').hide();
+                        }
+                    }
+                    activateMobileMenu();
+                    jQuery(window).resize(activateMobileMenu);
+        
+                <?php else: //Mode: mobile ($mode > 0) ?>
+        
+                    jQuery('#mobnav').show();
+                    jQuery('.vertnav-top').addClass('mobile');
+        
+                <?php endif; ?>
+
+                <?php //Toggle mobile menu ?>
+                jQuery('#mobnav-trigger').toggle(function() {
+                    jQuery('.vertnav-top').addClass('show');
+                    jQuery(this).addClass('active');
+                }, function() {
+                    jQuery('.vertnav-top').removeClass('show');
+                    jQuery(this).removeClass('active');
+                });
+                
+        //]]>
+        </script>
+
+    <?php endif; ?>
+
+
+
+    <?php //Drop-down scripts %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% ?>
+
+    <?php if ($mode >= 0): //Mode: drop-down or both ?>
+
+        <script type="text/javascript">
+        //<![CDATA[
+
+        <?php if ($helper->getCfg('mainmenu/wide_menu')): //Only for wide menu style ?>
+            jQuery(function($) {
+                $("#nav > li").hover(function() {
+                    var el = $(this).find(".level0-wrapper");
+                    el.hide();
+                    el.css("left", "0");
+                    el.stop(true, true).delay(150).fadeIn(300, "easeOutCubic");
+                }, function() {
+                    $(this).find(".level0-wrapper").stop(true, true).delay(300).fadeOut(300, "easeInCubic");
+                });
+            });
+        <?php endif; ?>
+
+            var isTouchDevice = ('ontouchstart' in window) || (navigator.msMaxTouchPoints > 0);
+            jQuery(window).on("load", function() {
+
+                if (isTouchDevice)
+                {
+                    jQuery('#nav a.level-top').click(function(e) {
+                        $t = jQuery(this);
+                        $parent = $t.parent();
+                        if ($parent.hasClass('parent'))
+                        {
+                            if ( !$t.hasClass('menu-ready'))
+                            {                    
+                                jQuery('#nav a.level-top').removeClass('menu-ready');
+                                $t.addClass('menu-ready');
+                                return false;
+                            }
+                            else
+                            {
+                                $t.removeClass('menu-ready');
+                            }
+                        }
+                    });
+                }
+
+            }); //end: on load
+
+        //]]>
+        </script>
+
+    <?php endif; ?>
+
+<?php endif; //end: if 'general/enable' ?>

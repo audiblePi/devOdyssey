@@ -1,0 +1,64 @@
+/**
+ * Classic drop-down menu
+ */
+
+
+
+/* All levels
+-------------------------------------------------------------- */
+/* Drop-down box's position is relative to this element. */
+#nav li { position:relative; float:left; }
+#nav li a { /*float:left;*/ }
+
+/* 2nd Level+
+-------------------------------------------------------------- */
+/* All category drop-down boxes */
+#nav ul {
+	position:absolute; 
+	background-color:#fff;
+	width:16em;
+	padding:20px;
+	border:0;
+}
+/* Custom block drop-down box. Override default style to show custom block in the classic menu. */
+#nav .level0-wrapper {
+	display:block;
+}
+
+#nav div ul { position:static; width:auto; border:none; }
+#nav ul li { display:block; float:none; }
+#nav ul li.parent > a { background:url(../../../images/infortis/ultra-megamenu/bullet.png) 100% center no-repeat; }
+#nav ul li a { padding:2px 10px 2px 0; float:none; }
+
+/* 3rd level+
+-------------------------------------------------------------- */
+/* Align with the parent item */
+#nav ul ul { top:0; }
+
+/* Show drop-down boxes
+-------------------------------------------------------------- */
+/* All category drop-down boxes + custom block drop-down box */
+#nav ul,
+#nav .level0-wrapper {
+	-webkit-transform: translateZ(0); /* Fix possible glitches during animation */
+	opacity:0;
+	left:-10000px;
+	-moz-transition:	opacity 150ms ease-in-out 150ms;
+	-webkit-transition:	opacity 150ms ease-in-out 150ms;
+	-o-transition:		opacity 150ms ease-in-out 150ms;
+	transition:			opacity 150ms ease-in-out 150ms;
+}
+/* Lower category (3rd level+) drop-down boxes  */
+#nav ul ul {
+	-moz-transition:	opacity 150ms ease-in-out 0ms;
+	-webkit-transition:	opacity 150ms ease-in-out 0ms;
+	-o-transition:		opacity 150ms ease-in-out 0ms;
+	transition:			opacity 150ms ease-in-out 0ms;
+}
+/* All submenus when visible */
+#nav .shown-sub {
+	opacity:1;
+	left:0;
+	z-index:2000 !important;
+}
+#nav .shown-sub ul.shown-sub { left:80px; }

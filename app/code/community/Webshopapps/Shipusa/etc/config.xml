@@ -1,0 +1,229 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    Mage
+ * @package     Mage_Usa
+ * @copyright   Copyright (c) 2013 Zowta, LLC (http://www.webshopapps.com)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+/*
+ * @category   Webshopapps
+ * @package    Webshopapps_UsaShipping
+ * @copyright   Copyright (c) 2013 Zowta Ltd (http://www.WebShopApps.com)
+ *              Copyright, 2013, Zowta, LLC - US license
+ * @license    http://www.webshopapps.com/license/license.txt
+ * @author     Karen Baker <sales@webshopapps.com>
+*/
+-->
+<config>
+  <modules>
+    <Webshopapps_Shipusa>
+      <version>1.0.12</version>
+    </Webshopapps_Shipusa>
+  </modules>
+  <global>
+    <blocks>
+      <shipusa>
+        <class>Webshopapps_Shipusa_Block</class>
+      </shipusa>
+    </blocks>
+    <models>
+      <shipusa>
+        <class>Webshopapps_Shipusa_Model</class>
+        <resourceModel>shipusa_resource</resourceModel>
+      </shipusa>
+      <shipusa_resource>
+        <class>Webshopapps_Shipusa_Model_Resource</class>
+        <entities>
+          <shipboxes>
+            <table>shipusa_shipboxes</table>
+          </shipboxes>
+          <singleboxes>
+            <table>shipusa_singleboxes</table>
+          </singleboxes>
+          <flatboxes>
+            <table>shipusa_flatboxes</table>
+          </flatboxes>
+          <packages>
+            <table>shipusa_packages</table>
+          </packages>
+          <order_packages>
+            <table>shipusa_order_packages</table>
+          </order_packages>
+        </entities>
+      </shipusa_resource>
+      <usa>
+        <rewrite>
+          <shipping_carrier_ups>Webshopapps_Shipusa_Model_Shipping_Carrier_Ups</shipping_carrier_ups>
+          <shipping_carrier_usps>Webshopapps_Shipusa_Model_Shipping_Carrier_Usps</shipping_carrier_usps>
+          <shipping_carrier_fedex>Webshopapps_Shipusa_Model_Shipping_Carrier_Fedex</shipping_carrier_fedex>
+        </rewrite>
+      </usa>
+    </models>
+    <resources>
+      <shipusa_setup>
+        <setup>
+          <module>Webshopapps_Shipusa</module>
+          <class>Mage_Eav_Model_Entity_Setup</class>
+        </setup>
+      </shipusa_setup>
+    </resources>
+    <helpers>
+      <shipusa>
+        <class>Webshopapps_Shipusa_Helper</class>
+      </shipusa>
+    </helpers>
+    <events>
+      <catalog_product_prepare_save>
+        <observers>
+          <shipusa>
+            <type>singleton</type>
+            <class>shipusa/observer</class>
+            <method>catalogProductPrepareSave</method>
+          </shipusa>
+        </observers>
+      </catalog_product_prepare_save>
+      <catalog_product_save_after>
+        <observers>
+          <shipusa>
+            <type>singleton</type>
+            <class>shipusa/observer</class>
+            <method>catalogProductSaveAfter</method>
+          </shipusa>
+        </observers>
+      </catalog_product_save_after>
+      <checkout_onepage_controller_success_action>
+        <observers>
+          <shipusa>
+            <type>singleton</type>
+            <class>shipusa/observer</class>
+            <method>saveOrderAfter</method>
+          </shipusa>
+        </observers>
+      </checkout_onepage_controller_success_action>
+      <admin_system_config_changed_section_shipping>
+        <observers>
+          <shipusa_observer>
+            <class>shipusa/observer</class>
+            <method>postError</method>
+          </shipusa_observer>
+        </observers>
+      </admin_system_config_changed_section_shipping>
+      <admin_system_config_changed_section_carriers>
+        <observers>
+          <shipusa_observer>
+            <class>shipusa/observer</class>
+            <method>postError</method>
+          </shipusa_observer>
+        </observers>
+      </admin_system_config_changed_section_carriers>
+    </events>
+    <sales>
+      <quote>
+        <item>
+          <product_attributes>
+            <ship_width />
+            <ship_height />
+            <ship_length />
+            <ship_separately />
+            <ship_algorithm />
+            <ship_box />
+            <ship_num_boxes />
+            <ship_shared_max_qty />
+            <ship_alternate_box />
+            <ship_dimensional />
+            <handling_price />
+            <handling_is_percent />
+            <handling_addon />
+            <split_product />
+            <ship_possible_boxes />
+            <ship_case_quantity />
+            <ship_box_tolerance />
+          </product_attributes>
+        </item>
+      </quote>
+    </sales>
+  </global>
+  <admin>
+    <routers>
+      <shipusa>
+        <use>admin</use>
+        <args>
+          <module>Webshopapps_Shipusa</module>
+          <frontName>shipusa</frontName>
+        </args>
+      </shipusa>
+    </routers>
+  </admin>
+  <adminhtml>
+    <layout>
+      <updates>
+        <shipusa>
+          <file>webshopapps_shipusa.xml</file>
+        </shipusa>
+      </updates>
+    </layout>
+  </adminhtml>
+  <default>
+    <shipping>
+      <shipusa>
+        <enabled>0</enabled>
+        <best_fit_tolerance>20</best_fit_tolerance>
+        <ship_separate>0</ship_separate>
+        <ship_all_dim>0</ship_all_dim>
+        <ship_dim_separate>1</ship_dim_separate>
+        <package_comment_history>0</package_comment_history>
+        <serial backend_model="adminhtml/system_config_backend_encrypted" />
+        <packing_algorithm>exact_packing</packing_algorithm>
+        <whole_weight>1</whole_weight>
+        <set_order_weight>0</set_order_weight>
+      </shipusa>
+    </shipping>
+    <carriers>
+      <fedex>
+        <monetary_value>0</monetary_value>
+        <saturday_pickup>0</saturday_pickup>
+        <break_multiples>1</break_multiples>
+        <max_multiple_weight>10000</max_multiple_weight>
+        <home_ground>0</home_ground>
+        <request_type>LIST</request_type>
+        <free_both_ground>0</free_both_ground>
+        <currency_rate>PAYOR</currency_rate>
+        <unit_of_measure>LBS</unit_of_measure>
+      </fedex>
+      <ups>
+        <monetary_value>0</monetary_value>
+        <break_multiples>1</break_multiples>
+        <max_multiple_weight>10000</max_multiple_weight>
+      </ups>
+      <usps>
+          <methods>First-Class Mail Large Envelope,First-Class Mail Letter,First-Class Mail Parcel,First-Class Mail Postcards,Priority Mail,Priority Mail Express Hold For Pickup,Priority Mail Express,Standard Post,Media Mail,Library Mail,Priority Mail Express Flat Rate Envelope,First-Class Mail Large Postcards,Priority Mail Flat Rate Envelope,Priority Mail Medium Flat Rate Box,Priority Mail Large Flat Rate Box,Priority Mail Express Sunday/Holiday Delivery,Priority Mail Express Sunday/Holiday Delivery Flat Rate Envelope,Priority Mail Express Flat Rate Envelope Hold For Pickup,Priority Mail Small Flat Rate Box,Priority Mail Padded Flat Rate Envelope,Priority Mail Express Legal Flat Rate Envelope,Priority Mail Express Legal Flat Rate Envelope Hold For Pickup,Priority Mail Express Sunday/Holiday Delivery Legal Flat Rate Envelope,Priority Mail Hold For Pickup,Priority Mail Large Flat Rate Box Hold For Pickup,Priority Mail Medium Flat Rate Box Hold For Pickup,Priority Mail Small Flat Rate Box Hold For Pickup,Priority Mail Flat Rate Envelope Hold For Pickup,Priority Mail Gift Card Flat Rate Envelope,Priority Mail Gift Card Flat Rate Envelope Hold For Pickup,Priority Mail Window Flat Rate Envelope,Priority Mail Window Flat Rate Envelope Hold For Pickup,Priority Mail Small Flat Rate Envelope,Priority Mail Small Flat Rate Envelope Hold For Pickup,Priority Mail Legal Flat Rate Envelope,Priority Mail Legal Flat Rate Envelope Hold For Pickup,Priority Mail Padded Flat Rate Envelope Hold For Pickup,Priority Mail Regional Rate Box A,Priority Mail Regional Rate Box A Hold For Pickup,Priority Mail Regional Rate Box B,Priority Mail Regional Rate Box B Hold For Pickup,First-Class Package Service Hold For Pickup,Priority Mail Express Flat Rate Boxes,Priority Mail Express Flat Rate Boxes Hold For Pickup,Priority Mail Express Sunday/Holiday Delivery Flat Rate Boxes,Priority Mail Regional Rate Box C,Priority Mail Regional Rate Box C Hold For Pickup,First-Class Package Service,Priority Mail Express Padded Flat Rate Envelope,Priority Mail Express Padded Flat Rate Envelope Hold For Pickup,Priority Mail Express International,Priority Mail International,Global Express Guaranteed (GXG),Global Express Guaranteed Document,Global Express Guaranteed Non-Document Rectangular,Global Express Guaranteed Non-Document Non-Rectangular,Priority Mail International Flat Rate Envelope,Priority Mail International Medium Flat Rate Box,Priority Mail Express International Flat Rate Envelope,Priority Mail International Large Flat Rate Box,USPS GXG Envelopes,First-Class Mail International Letter,First-Class Mail International Large Envelope,First-Class Package International Service,Priority Mail International Small Flat Rate Box,Priority Mail Express International Legal Flat Rate Envelope,Priority Mail International Gift Card Flat Rate Envelope,Priority Mail International Window Flat Rate Envelope,Priority Mail International Small Flat Rate Envelope,First-Class Mail International Postcard,Priority Mail International Legal Flat Rate Envelope,Priority Mail International Padded Flat Rate Envelope,Priority Mail International DVD Flat Rate priced box,Priority Mail International Large Video Flat Rate priced box,Priority Mail Express International Flat Rate Boxes,Priority Mail Express International Padded Flat Rate Envelope,Priority Mail Military,Priority Mail Military Flat Rate Envelope,Priority Mail Military Small Flat Rate Box,Priority Mail Military Medium Flat Rate Box,Priority Mail Military Large Flat Rate Box,Priority Mail Military Flat Rate Box</methods>
+          <allowed_methods>First-Class Mail Large Envelope,First-Class Mail Letter,First-Class Mail Parcel,First-Class Mail Postcards,Priority Mail,Priority Mail Express Hold For Pickup,Priority Mail Express,Standard Post,Media Mail,Library Mail,Priority Mail Express Flat Rate Envelope,First-Class Mail Large Postcards,Priority Mail Flat Rate Envelope,Priority Mail Medium Flat Rate Box,Priority Mail Large Flat Rate Box,Priority Mail Express Sunday/Holiday Delivery,Priority Mail Express Sunday/Holiday Delivery Flat Rate Envelope,Priority Mail Express Flat Rate Envelope Hold For Pickup,Priority Mail Small Flat Rate Box,Priority Mail Padded Flat Rate Envelope,Priority Mail Express Legal Flat Rate Envelope,Priority Mail Express Legal Flat Rate Envelope Hold For Pickup,Priority Mail Express Sunday/Holiday Delivery Legal Flat Rate Envelope,Priority Mail Hold For Pickup,Priority Mail Large Flat Rate Box Hold For Pickup,Priority Mail Medium Flat Rate Box Hold For Pickup,Priority Mail Small Flat Rate Box Hold For Pickup,Priority Mail Flat Rate Envelope Hold For Pickup,Priority Mail Gift Card Flat Rate Envelope,Priority Mail Gift Card Flat Rate Envelope Hold For Pickup,Priority Mail Window Flat Rate Envelope,Priority Mail Window Flat Rate Envelope Hold For Pickup,Priority Mail Small Flat Rate Envelope,Priority Mail Small Flat Rate Envelope Hold For Pickup,Priority Mail Legal Flat Rate Envelope,Priority Mail Legal Flat Rate Envelope Hold For Pickup,Priority Mail Padded Flat Rate Envelope Hold For Pickup,Priority Mail Regional Rate Box A,Priority Mail Regional Rate Box A Hold For Pickup,Priority Mail Regional Rate Box B,Priority Mail Regional Rate Box B Hold For Pickup,First-Class Package Service Hold For Pickup,Priority Mail Express Flat Rate Boxes,Priority Mail Express Flat Rate Boxes Hold For Pickup,Priority Mail Express Sunday/Holiday Delivery Flat Rate Boxes,Priority Mail Regional Rate Box C,Priority Mail Regional Rate Box C Hold For Pickup,First-Class Package Service,Priority Mail Express Padded Flat Rate Envelope,Priority Mail Express Padded Flat Rate Envelope Hold For Pickup,Priority Mail Express International,Priority Mail International,Global Express Guaranteed (GXG),Global Express Guaranteed Document,Global Express Guaranteed Non-Document Rectangular,Global Express Guaranteed Non-Document Non-Rectangular,Priority Mail International Flat Rate Envelope,Priority Mail International Medium Flat Rate Box,Priority Mail Express International Flat Rate Envelope,Priority Mail International Large Flat Rate Box,USPS GXG Envelopes,First-Class Mail International Letter,First-Class Mail International Large Envelope,First-Class Package International Service,Priority Mail International Small Flat Rate Box,Priority Mail Express International Legal Flat Rate Envelope,Priority Mail International Gift Card Flat Rate Envelope,Priority Mail International Window Flat Rate Envelope,Priority Mail International Small Flat Rate Envelope,First-Class Mail International Postcard,Priority Mail International Legal Flat Rate Envelope,Priority Mail International Padded Flat Rate Envelope,Priority Mail International DVD Flat Rate priced box,Priority Mail International Large Video Flat Rate priced box,Priority Mail Express International Flat Rate Boxes,Priority Mail Express International Padded Flat Rate Envelope,Priority Mail Military,Priority Mail Military Flat Rate Envelope,Priority Mail Military Small Flat Rate Box,Priority Mail Military Medium Flat Rate Box,Priority Mail Military Large Flat Rate Box,Priority Mail Military Flat Rate Box</allowed_methods>
+        <display_insurance>none</display_insurance>
+        <break_multiples>1</break_multiples>
+        <max_multiple_weight>10000</max_multiple_weight>
+        <min_package_weight>0.1</min_package_weight>
+        <request_type>LIST</request_type>
+        <free_method/>
+      </usps>
+    </carriers>
+  </default>
+</config>

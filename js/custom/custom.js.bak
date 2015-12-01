@@ -1,0 +1,221 @@
+jQuery(function($){
+	$('.product-options').find(".option").slice(3,4).css('display','none');//screen charge 1
+	$('.product-options').find(".option").slice(4,5).css('display','none');//screen charge 2
+	$('.product-options').find(".option").slice(5,6).css('display','none');//first imprint	
+	$('.product-options').find(".option").slice(6,7).css('display','none');//second imprint
+	//one color
+	if ($('.product-options .option li').find("input").slice(0,1).is(':checked')){
+		$('.product-options').find(".option").slice(3,4).css('display','block');//screen charge 1
+		$('.product-options').find(".option").slice(5,6).css('display','block');//first imprint	
+	}
+	//second color
+	if(	$('.product-options .option li').find("input").slice(1,2).is(':checked')){
+		$('.product-options').find(".option").slice(4,5).css('display','block');//screen charge 2
+		$('.product-options').find(".option").slice(5,6).css('display','block');//first imprint	
+		$('.product-options').find(".option").slice(6,7).css('display','block');//second imprint
+	}
+	//1 color
+	$('.product-options .option li').find("input").slice(0,1).click(function(){
+		$('.product-options').find(".option").slice(3,4).css('display','block');//screen charge 1
+		$('.product-options').find(".option").slice(4,5).css('display','none');//screen charge 2
+		$('.product-options').find(".option").slice(5,6).css('display','block');//first imprint
+		$('.product-options').find(".option").slice(6,7).css('display','none');//second imprint
+
+		$('.product-options .option li').find("input").slice(2,3).prop("checked", true);//charge 1
+		$('.product-options .option li').find("input").slice(4,5).prop("checked", false);//charge 2
+
+	});
+	//2 color
+	$('.product-options .option li').find("input").slice(1,2).click(function(){
+		$('.product-options').find(".option").slice(3,4).css('display','none');//screen charge 1
+		$('.product-options').find(".option").slice(4,5).css('display','block');//screen charge 2
+		$('.product-options').find(".option").slice(5,6).css('display','block');//first imprint
+		$('.product-options').find(".option").slice(6,7).css('display','block');//second imprint
+
+		$('.product-options .option li').find("input").slice(2,3).prop("checked", false);//charge 1			
+		$('.product-options .option li').find("input").slice(4,5).prop("checked", true);//charge 2
+	});
+
+
+	var loginLink = $('.top-links.links-wrapper-separators-left .links li:nth-of-type(3) a');
+	if (loginLink.html() == "Log In") { //LOGIN LINK FOR NON-DIST
+		var addBoxDiv = $('.add-to-cart');
+		var redirectLink = loginLink.attr('href');
+		$('.qty-wrapper').css('display', 'none');
+
+		//hide product options
+		$('.product-options').css('display', 'none');
+		
+		//hide configurable product attributes
+		$('.product-view .config-attr').css('display', 'none');
+		
+		addBoxDiv.find('button')
+			.attr({
+				'title': 'Login',
+				'onclick': 'window.location.href="' + redirectLink + '"'
+			});
+		addBoxDiv.find('button > span > span')
+			.html('Login to See Distributor Pricing');
+
+		var addToCartButton = $('#product-addtocart-button');
+		if (addToCartButton.length != 0) {
+			$('.product-type-data').append(addToCartButton);
+		};
+	} 
+	else { 
+		//LOGGED IN VIEW FOR DIST
+		if ($('body').hasClass('catalog-product-view catalog-product-view')){
+			UpdateMainPrices();
+
+			$('.catalog-product-view.catalog-product-view #attribute92').change(function(){
+				UpdateTierPrices();
+			});
+		}
+	}//endif
+
+
+
+
+
+
+	$('.products-grid .price-box .regular-price').empty();
+
+	var pageCategory = $('.category-title h1');
+	if (pageCategory != undefined) {
+		var category = pageCategory.text().toLowerCase();
+		if (category == 'ceramic mugs' || category == 'travelware' || category == '') {
+
+		};
+	};
+
+	//CHANGE PRICING BASED ON QUANTITY
+	var qtyInput = $('.product-view .qty-wrapper #qty');
+	if (qtyInput != undefined) {
+		qtyInput.keyup(function(){
+			//console.log('boomage'); //debug
+
+			var priceMultiplier = [];
+			var prices = $('.product-pricing .tier-price .price');
+			prices.each(function(){
+				var price = Number.parseFloat($(this).html().replace('$', ''));
+				//console.log(price); //debug
+				priceMultiplier[priceMultiplier.length] = price;
+			});
+
+			var qty = $(this).val();
+			var priceMultiplierIndex = $('.product-pricing').length - 1;
+
+		});
+	};
+
+	// for description tab on product view page
+	var additionalTab = $('#tab-additional a');
+	if (additionalTab != undefined) {
+		additionalTab.trigger('click');
+	};
+
+	//one page checkout
+	if( $('body').hasClass('checkout-cart-index')){
+		//console.log('checkout');
+
+		var cartPrice = Number.parseFloat($('.col-unit-price .cart-price .price').html().replace('$', ''));
+		var qty = Number.parseFloat($('input.qty').val());
+		var totalPrice = Number.parseFloat($('.col-total .cart-price .price').html().replace('$', ''));
+		var screenCharge;
+
+		if ( $('.item-options dd:contains("$47.50")').html() ){
+			//console.log('one screen charge');
+		}
+		if ( $('.item-options dd:contains("$95.00")').html()) {
+			//console.log('two screen charge');
+		}
+
+		// console.log(cartPrice);
+		// console.log(qty);
+		// console.log(totalPrice);
+
+		//var screenGuess = (totalPrice/qty);
+
+		//console.log(screenCharge);
+	}
+
+	//edit cart
+	if( $('body').hasClass('checkout-cart-configure')){
+		console.log('editing');
+		var oldPrice = Number.parseFloat($('.old-price .price').html().replace('$', ''));
+
+		$('.product-options .option li').find("input").slice(0,1).prop("checked", false);//screen charge 1
+		$('.product-options .option li').find("input").slice(1,2).prop("checked", false);//screen charge 2
+		
+		$('.product-options .option li').find("input").slice(2,3).prop("checked", false);//charge 1			
+		$('.product-options .option li').find("input").slice(4,5).prop("checked", false);//charge 2
+
+		//UpdateMainPrices();
+		//UpdateTierPrices();
+
+		$('.checkout-cart-configure.catalog-product-view #attribute92').change(function(){
+			console.log('change');
+			//$('.old-price .price').html('$' + oldPrice.toFixed(2));
+			console.log(oldPrice);
+		});
+
+		$('#attribute92').val('0');
+	}
+
+
+	//UPDATES LOW-AS PRICE WHEN USER HAS CHANGED AN INPUT
+	//MAGENTO WILL OVERRIDE THE CUSTOM 'AS LOW AS' FUNCTIONALITY WITHOUT THIS LINE
+	function UpdateMainPrices(){
+		//console.log('updateMainPrices()');
+		var lowestPrice = Number.parseFloat($('.tier-prices.product-pricing li:last-of-type .price').html().replace('$', ''));
+		var distPrice = Number.parseFloat($('.special-price .price').html());
+		var oldPrice = Number.parseFloat($('.old-price .price').html().replace('$', ''));
+
+		$('.product-view .special-price .price').css('display', 'none');
+		$('.product-view .special-price .price-label').html('As low as: $' + lowestPrice.toFixed(2));
+	}//end UpdateMainPrices()
+
+	//updates tier pricing for associated products
+	function UpdateTierPrices(){
+		//console.log('UpdateTierPrices()');
+		var tmpReset = Number.parseFloat("0");
+		var oldPrice = Number.parseFloat($('.old-price .price').html().replace('$', ''));
+		var priceTier = $('.tier-prices.product-pricing'); 
+		var distPrice = Number.parseFloat($('.special-price .price').html().replace('$', ''));
+		var currentPrice = Number.parseFloat($('.tier-prices.product-pricing .tier-0 .price').html().replace('$', ''));
+
+		//test to see if color option is checked		
+		if ($('.product-options .option li').find("input").slice(2,3).is(':checked')){//charge 1
+			tmpReset = Number.parseFloat("47.5");
+			oldPrice = (oldPrice - tmpReset);
+			distPrice = (distPrice - tmpReset);	
+
+			$('.special-price .price').html('$' + distPrice.toFixed(2));
+			$('.old-price .price').html('$' + oldPrice.toFixed(2));
+		}
+		if ($('.product-options .option li').find("input").slice(4,5).is(':checked')){//charge 2			
+			tmpReset = Number.parseFloat("95");
+			oldPrice = (oldPrice - tmpReset);
+			distPrice = (distPrice - tmpReset);	
+
+			$('.special-price .price').html('$' + distPrice.toFixed(2));
+			$('.old-price .price').html('$' + oldPrice.toFixed(2));
+		}
+
+		var diff =  distPrice.toFixed(2) - currentPrice.toFixed(2);
+
+		$('.tier-prices.product-pricing .tier-price').each(function(){
+			var tmpPrice = Number.parseFloat($(this).find('.price').html().replace('$', ''));
+			var newPrice = (tmpPrice + diff).toFixed(2);
+			
+			$(this).find('.price').html('$' + newPrice);
+			
+			var rawTierPrice = ($(this).find('.price').html()).replace('$', ''); //straight from DOM
+			var percentSaving = $(this).find('.benefit span.percent');
+			var distSavingPerc = (((distPrice - rawTierPrice)/distPrice)*100).toFixed(0).toString();
+			percentSaving.html(distSavingPerc);
+		});
+
+		UpdateMainPrices();
+	}//end UpdateTierPrices()
+})

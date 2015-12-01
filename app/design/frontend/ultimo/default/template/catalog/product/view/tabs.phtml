@@ -1,0 +1,83 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     default_modern
+ * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+/**
+ * Product view template
+ *
+ * @see Mage_Catalog_Block_Product_View
+ */
+?>
+
+<?php //Add extra tabs: static blocks as tabs
+	$_extraTabs = '';
+	$_extraPanes = '';
+	
+	if ($tmpBlock = $this->getChildHtml('block_product_tab1'))
+	{
+		$title = Mage::getModel('cms/block')->setStoreId(Mage::app()->getStore()->getId())->load('block_product_tab1')->getTitle();
+		$_extraTabs .= '<li><a href="#">'. $title .'</a></li>';
+		$_extraPanes .= '<h2 class="acctab">'. $title .'</h2>';
+		$_extraPanes .= '<div class="panel"><div class="std">'. $tmpBlock .'</div></div>';
+	}
+	
+	if ($tmpBlock = $this->getChildHtml('block_product_tab2'))
+	{
+		$title = Mage::getModel('cms/block')->setStoreId(Mage::app()->getStore()->getId())->load('block_product_tab2')->getTitle();
+		$_extraTabs .= '<li><a href="#">'. $title .'</a></li>';
+		$_extraPanes .= '<h2 class="acctab">'. $title .'</h2>';
+		$_extraPanes .= '<div class="panel"><div class="std">'. $tmpBlock .'</div></div>';
+	}
+?>
+
+<?php $_panes = ''; ?>
+<?php foreach ($this->getTabs() as $_index => $_tab): ?>
+    <?php
+    	if($tmpBlock = $this->getChildHtml($_tab['alias']))
+		{
+			$_panes .= '<h2 class="acctab" id="acctab-'. $_tab['alias'] .'">'. $_tab['title'] .'</h2>';
+			$_panes .= '<div class="panel">'. $tmpBlock .'</div>';
+		}
+	?>
+<?php endforeach; ?>
+
+<?php if ($_panes != ''): ?>
+	<div id="product-tabs" class="gen-tabs gen-tabs-style1">
+
+		<?php //IMPORTANT: id "product-tabs" is being used in: /catalog/product/view.phtml, /review/helper/summary*_nolinks.phtml ?>
+        <ul class="tabs clearer">
+			<?php foreach ($this->getTabs() as $_index => $_tab): ?>
+				<?php if ($this->getChildHtml($_tab['alias'])): ?>
+                	<li id="tab-<?php echo $_tab['alias']?>"><a href="#"><?php echo $_tab['title']?></a></li>
+                <?php endif; ?>
+            <?php endforeach; ?>
+            <?php echo $_extraTabs; //Append extra tabs after regular tabs ?>
+        </ul>
+        <div class="tabs-panels"><?php echo $_panes, $_extraPanes; //Append extra panels to regular panels ?></div>
+        
+	</div>
+	<script type="text/javascript">
+		jQuery(function($){var p=$(window).width()>=0x3C0;if($(window).width()>=0x3C0){$(".gen-tabs > .tabs").tabs(".tabs-panels .panel")}else{$(".gen-tabs").addClass("accor");$(".tabs-panels").tabs(".tabs-panels .panel",{tabs:'.acctab',effect:'slide'})}var t;$(window).resize(function(){clearTimeout(t);t=setTimeout(function(){if($(window).width()<0x3C0){if(p){var a=$(".tabs").data("tabs");var b=a.getIndex();a.destroy();$(".gen-tabs").addClass("accor");$(".tabs-panels").tabs(".tabs-panels .panel",{tabs:'.acctab',effect:'slide',initialIndex:b})}p=false}else{if(!p){var a=$(".tabs-panels").data("tabs");var b=a.getIndex();a.destroy();$(".gen-tabs").removeClass("accor");$(".gen-tabs > .tabs").tabs(".tabs-panels .panel",{initialIndex:b})}p=true}},500)})});
+    </script>
+<?php endif; ?>

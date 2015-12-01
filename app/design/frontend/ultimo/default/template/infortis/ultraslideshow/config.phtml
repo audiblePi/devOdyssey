@@ -1,0 +1,53 @@
+<?php
+/**
+ * @deprecated
+ *
+ * @var $this Infortis_UltraSlideshow_Block_Config
+ */
+?>
+	<?php
+		//Get config
+		$cfg = $this->getSlideshowCfg();
+		
+		//Script beginning depends on smooth height settings
+		if ($cfg['smooth_height'])
+		{
+			$scriptWrapper = 'jQuery(window).load(function(){';
+		}
+		else
+		{
+			$scriptWrapper = 'jQuery(function($){';
+		}
+	?>
+	<script type="text/javascript">
+	//<![CDATA[
+
+		<?php echo $scriptWrapper; ?>
+	
+			jQuery('.the-slideshow').flexslider({
+				namespace:			"",
+				animation:			<?php echo $cfg['fx']; ?>,
+			
+			<?php if ($cfg['easing']): ?>
+				easing:				<?php echo $cfg['easing']; ?>,
+				useCSS:				false,
+			<?php endif; ?>
+				
+				animationLoop:		<?php echo $cfg['loop']; ?>,
+				smoothHeight:		<?php echo $cfg['smooth_height']; ?>,
+				
+			<?php if ($cfg['timeout']): ?>
+				slideshowSpeed:		<?php echo $cfg['timeout']; ?>,
+			<?php else: ?>
+				slideshow:			false,
+			<?php endif; ?>
+			
+			<?php if ($cfg['speed']): ?>
+				animationSpeed:		<?php echo $cfg['speed']; ?>,
+			<?php endif; ?>
+				
+				pauseOnHover:		<?php echo $cfg['pause']; ?>
+			});
+		});
+	//]]>
+	</script>

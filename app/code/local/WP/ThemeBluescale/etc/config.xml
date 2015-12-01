@@ -1,0 +1,76 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <WP_ThemeBluescale>
+            <version>1.0.1</version>
+        </WP_ThemeBluescale>
+    </modules>
+    <global>
+        <helpers>
+            <themebluescale>
+                <class>WP_ThemeBluescale_Helper</class>
+            </themebluescale>
+        </helpers>
+    </global>
+    <adminhtml>
+        <acl>
+            <resources>
+                <all>
+                    <title>Allow Everything</title>
+                </all>
+                <admin>
+                    <children>
+                        <system>
+                            <children>
+                                <config>
+                                    <children>
+                                        <theme_bluescale translate="title" module="themebluescale">
+                                            <title><![CDATA[Web & People: Theme Bluescale 2013]]></title>
+                                            <sort_order>1000</sort_order>
+                                        </theme_bluescale>
+                                    </children>
+                                </config>
+                            </children>
+                        </system>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
+    </adminhtml>
+    <default>
+        <theme_bluescale>
+            <general>
+                <version>1.0.1</version>
+            </general>
+        </theme_bluescale>
+    </default>
+    <adminhtml>
+        <acl>
+            <resources>
+                <admin>
+                    <children>
+                        <system>
+                            <children>
+                                <config>
+                                    <children>
+                                        <about_webandpeople translate="title" module="themebluescale">
+                                            <title><![CDATA[Web & People: About Us]]></title>
+                                            <sort_order>1000</sort_order>
+                                        </about_webandpeople>
+                                    </children>
+                                </config>
+                            </children>
+                        </system>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
+    </adminhtml>
+    <global>
+        <blocks>
+            <themebluescale>
+                <class>WP_ThemeBluescale_Block</class>
+            </themebluescale>
+        </blocks>
+    </global>
+</config>

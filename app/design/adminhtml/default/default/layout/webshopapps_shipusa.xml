@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<layout>
+
+    <adminhtml_catalog_product_edit>
+        <reference name="product_tabs">
+            <action method="addTab">
+            	<name>webshopapps_shipboxes</name>
+            	<block>shipusa/adminhtml_product_shipboxes</block>
+            </action>
+            <action method="addTab">
+            	<name>webshopapps_singleboxes</name>
+            	<block>shipusa/adminhtml_product_singleboxes</block>
+            </action>
+            <action method="addTab">
+            <name>webshopapps_flatboxes</name>
+            <block>shipusa/adminhtml_product_flatboxes</block>
+        </action>
+
+        </reference>
+    </adminhtml_catalog_product_edit>
+
+</layout>

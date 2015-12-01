@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<config>
+	<acl>
+		<resources>
+			<all>
+				<title>Allow Everything</title>
+			</all>
+			<admin>
+				<children>
+					<infortis translate="title" module="ultimo">
+						<title>Infortis</title>
+						<sort_order>90</sort_order>
+						<children>
+							<ultimo translate="title" module="ultimo">
+								<title>Ultimo0</title>
+								<sort_order>10</sort_order>
+								<children>
+									<ultimo translate="title" module="ultimo">
+										<title>Ultimo - Theme Settings</title>
+										<sort_order>10</sort_order>
+									</ultimo>
+									<ultimo_design translate="title" module="ultimo">
+										<title>Ultimo - Theme Design</title>
+										<sort_order>20</sort_order>
+									</ultimo_design>
+									<ultimo_layout translate="title" module="ultimo">
+										<title>Ultimo - Theme Layout</title>
+										<sort_order>30</sort_order>
+									</ultimo_layout>
+								</children>
+							</ultimo>
+							<action1 translate="title" module="ultimo">
+								<title>testact</title>
+								<sort_order>1</sort_order>
+							</action1>
+							<action2 translate="title" module="ultimo">
+								<title>testact2</title>
+								<sort_order>2</sort_order>
+							</action2>
+							<action3 translate="title" module="ultimo">
+								<title>testact + args</title>
+								<sort_order>3</sort_order>
+							</action3>
+							<turnkeye translate="title" module="ultimo">
+								<title>turnkeye</title>
+								<sort_order>4</sort_order>
+							</turnkeye>
+						</children>
+					</infortis>
+				</children>
+			</admin>
+		</resources>
+	</acl>
+</config>

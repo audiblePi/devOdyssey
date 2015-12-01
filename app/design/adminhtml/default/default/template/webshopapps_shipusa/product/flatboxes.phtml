@@ -1,0 +1,140 @@
+<?php
+$_flatBoxes = $this->getFlatBoxes();
+
+$_store = Mage::app()->getStore($this->getProduct()->getStoreId());
+?>
+<div class="entry-edit">
+    <div class="entry-edit-head">
+        <h4 class="icon-head head-edit-form fieldset-legend"><?php echo Mage::helper('shipusa')->__('USPS Flat Shipping Boxes used for this Product') ?></h4>
+        <div class="right"><button type="button" class="scalable add" id="shipusa-flatbox-add"><span><?php echo $this->__('Add Box') ?></span></button></div>
+    </div>
+    <fieldset>
+        <legend><?php echo $this->__('Shipping Box Details') ?></legend>
+        <div class="grid">
+            <div class="hor-scroll">
+                <table cellspacing="0" class="data" id="table_flatboxes">
+                    <thead>
+                    <tr class="headings">
+                        <th><?php echo $this->__('Box') ?></th>
+                        <th><?php echo $this->__('Length') ?></th>
+                        <th><?php echo $this->__('Width') ?></th>
+                        <th><?php echo $this->__('Height') ?></th>
+                        <th><?php echo $this->__('Max Qty allowed in this Box') ?></th>
+                        <th><?php echo $this->__('Min Qty Box Valid from') ?></th>
+                        <th><?php echo $this->__('Max Qty Box Valid upto') ?></th>
+
+                    </tr>
+                    <tr id="shipusa_flatrow_template" style="display:none">
+                        <td><?php echo $this->getBoxSelectHtml() ?></td>
+                        <td><input type="decimal" class="input-decimal" id="shipusa_flatboxes[$ROW][length]" name="shipusa_flatboxes[$ROW][length]" value="$LENGTH" style="width:70px" /></td>
+                        <td><input type="decimal" class="input-decimal" id="shipusa_flatboxes[$ROW][width]" name="shipusa_flatboxes[$ROW][width]" value="$WIDTH" style="width:70px" /></td>
+                        <td><input type="decimal" class=input-decimal id="shipusa_flatboxes[$ROW][height]" name="shipusa_flatboxes[$ROW][height]" value="$HEIGHT" style="width:70px" /></td>
+                        <td><input type="int" class="input-int" name="shipusa_flatboxes[$ROW][max_box]" value="$MAX_BOX" style="width:50px" /></td>
+                        <td><input type="int" class="input-int" name="shipusa_flatboxes[$ROW][min_qty]" value="$MIN_QTY" style="width:50px" /></td>
+                        <td><input type="int" class="input-int" name="shipusa_flatboxes[$ROW][max_qty]" value="$MAX_QTY" style="width:50px" /></td>
+
+                        <td><button type="button" class="scalable delete"><span><?php echo $this->__('Remove') ?></span></td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div id="messages"><ul class="messages"><li class="notice-msg"><ul>
+                        <li><?php echo $this->__('Please Read:') ?></li>
+                        <li><?php echo $this->__('This section allows you to enter the possible shipping boxes a product ships in.') ?></li>
+                        <li><?php echo $this->__('Minimum and Max Quantities are used to determine when to move to the next box.') ?></li>
+                        <li><?php echo $this->__('The lowest quantity box will be used first when packing items.') ?></li>
+                        <li><?php echo $this->__('Any dimensions here supercede dimensions logic specified under Shipping Tab.') ?></li>
+                    </ul></li></ul></div>
+    </fieldset>
+</div>
+
+<script type="text/javascript">
+    //<![CDATA[
+
+
+    (function ()
+    {
+        var lastRowNum = 1;
+        var tbody = $$('#table_flatboxes tbody')[0]
+
+        function addSingleRow(data)
+        {
+            var rowHtml = $('shipusa_flatrow_template').innerHTML
+            data = data || {
+                flatboxes_id: '',
+                box_id: '',
+                length: '',
+                width: '',
+                height: '',
+                max_box: '-1',
+                min_qty: '0',
+                max_qty:'-1'
+            }
+            data.row = lastRowNum++;
+            Prototype.Browser.IE8 = Prototype.Browser.IE && parseInt(navigator.userAgent.substring(navigator.userAgent.indexOf("MSIE")+5)) == 8;
+            for (i in data) {
+                value = data[i] || ''
+                if (i!=='row' && Prototype.Browser.IE8) value = '"'+value+'"'
+                rowHtml = rowHtml.replace(new RegExp('\\$'+i.toUpperCase(), 'g'), value)
+            }
+            tbody.insert('<tr>'+rowHtml+'</tr>')
+            if (data.box_id>0) {
+                $A($('shipusa_flatboxes_'+data.row+'_box_id').options).each(function(option){
+                    if (option.value==data.box_id) option.selected = true;
+                });
+            }
+            var trs = tbody.childElements()
+            var tr = trs[trs.length-1]
+            var del = $(tr).select('button')[0]
+            $(del).observe('click', function(e) { e.stop(); $(del.parentNode.parentNode).remove() })
+            if ($('shipusa_flatboxes_'+data.row+'_box_id').value == "") {
+                $('shipusa_flatboxes['+data.row+'][length]').disabled=false;
+                $('shipusa_flatboxes['+data.row+'][length]').style.backgroundColor = "#FFFFFF";
+                $('shipusa_flatboxes['+data.row+'][width]').disabled=false;
+                $('shipusa_flatboxes['+data.row+'][width]').style.backgroundColor = "#FFFFFF";
+                $('shipusa_flatboxes['+data.row+'][height]').disabled=false;
+                $('shipusa_flatboxes['+data.row+'][height]').style.backgroundColor = "#FFFFFF";
+            } else {
+                $('shipusa_flatboxes['+data.row+'][length]').disabled=true;
+                $('shipusa_flatboxes['+data.row+'][length]').style.backgroundColor = "#CCCCCC";
+                $('shipusa_flatboxes['+data.row+'][length]').value="";
+                $('shipusa_flatboxes['+data.row+'][width]').disabled=true;
+                $('shipusa_flatboxes['+data.row+'][width]').style.backgroundColor = "#CCCCCC";
+                $('shipusa_flatboxes['+data.row+'][width]').value="";
+                $('shipusa_flatboxes['+data.row+'][height]').disabled=true;
+                $('shipusa_flatboxes['+data.row+'][height]').style.backgroundColor = "#CCCCCC";
+                $('shipusa_flatboxes['+data.row+'][height]').value="";
+            }
+            $('shipusa_flatboxes_'+data.row+'_box_id').observe('change', eChangeBox)
+
+            function eChangeBox() {
+                if ($('shipusa_flatboxes_'+data.row+'_box_id').value == "") {
+                    $('shipusa_flatboxes['+data.row+'][length]').disabled=false;
+                    $('shipusa_flatboxes['+data.row+'][length]').style.backgroundColor = "#FFFFFF";
+                    $('shipusa_flatboxes['+data.row+'][width]').disabled=false;
+                    $('shipusa_flatboxes['+data.row+'][width]').style.backgroundColor = "#FFFFFF";
+                    $('shipusa_flatboxes['+data.row+'][height]').disabled=false;
+                    $('shipusa_flatboxes['+data.row+'][height]').style.backgroundColor = "#FFFFFF";
+                } else {
+                    $('shipusa_flatboxes['+data.row+'][length]').disabled=true;
+                    $('shipusa_flatboxes['+data.row+'][length]').style.backgroundColor = "#CCCCCC";
+                    $('shipusa_flatboxes['+data.row+'][width]').disabled=true;
+                    $('shipusa_flatboxes['+data.row+'][width]').style.backgroundColor = "#CCCCCC";
+                    $('shipusa_flatboxes['+data.row+'][height]').disabled=true;
+                    $('shipusa_flatboxes['+data.row+'][height]').style.backgroundColor = "#CCCCCC";
+                }
+            }
+        }
+
+        $('shipusa-flatbox-add').observe('click', function(e) { e.stop(); addSingleRow() })
+
+        <?php foreach ($_flatBoxes as $_flatBox): ?>
+            addSingleRow(<?php echo Zend_Json::encode($_flatBox->getData()) ?>)
+        <?php endforeach ?>
+    })()
+
+    //]]>
+</script>

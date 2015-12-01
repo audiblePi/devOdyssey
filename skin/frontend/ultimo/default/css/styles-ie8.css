@@ -1,0 +1,81 @@
+/*
+ * Internet Explorer: less than or equal 8
+ *
+ */
+
+/* Hide element if screen width is lower than the width specified in the class name */
+.lte-ie8 .hide-below-1680 { display:inherit !important; }
+.lte-ie8 .hide-below-1440 { display:inherit !important; }
+.lte-ie8 .hide-below-1360 { display:inherit !important; }
+.lte-ie8 .hide-below-1280 { display:inherit !important; }
+
+
+/* Borders instead of dropdown shadows
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+*/
+
+/* Main menu drop-down */
+#nav .level0-wrapper,
+
+/* Main menu drop-down (classic style) */
+#nav.classic .parent > ul,
+
+/* Search autocomplete */
+.header .form-search .search-autocomplete ul,
+
+/* Dropdown */
+.dropdown-menu
+{
+	border:1px solid #e5e5e5;
+}
+
+/* Remember Me popup, MAP popup, credit card number */
+.remember-me-popup,
+.map-popup,
+.tool-tip { border:1px solid #e5e5e5; }
+
+
+/* Caption
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+*/
+
+/* Dark + white text */
+.caption.dark1 .heading,
+.caption.dark1 p,
+.caption.dark2 .heading,
+.caption.dark2 p,
+.caption.dark3 .heading,
+.caption.dark3 p { background-color:rgba(0,0,0, 0.65); background-color:#000; }
+
+/* Light + black text */
+.caption.light1 .heading,
+.caption.light1 p,
+.caption.light2 .heading,
+.caption.light2 p,
+.caption.light3 .heading,
+.caption.light3 p { background-color:rgba(255,255,255, 0.8); background-color:#fff; }
+
+
+/* Search
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+*/
+
+/*Fix for header layout*/
+.header .form-search .input-text { float:none !important; }
+/* Fix button position */
+.header-top-search-wrapper { width:24%;}
+.header .form-search .button { background-color:transparent; }
+.header .form-search .button span { background-color:transparent; }
+
+
+/* Mobile collapsible blocks (disable for old IE)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+*/
+.mobile-collapsible .block-content { display: block !important; } /* To keep the block opened (without CSS media queries) */
+.mobile-collapsible .opener { display: none !important; } /* To hide opener (without CSS media queries) */
+
+
+/* Category view
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+*/
+.products-grid.equal-height .item .actions { min-height: 45px; } /* Out-of-stock products need to have the same height as other grid items */

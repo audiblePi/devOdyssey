@@ -1,0 +1,145 @@
+<?php
+/**
+ * MageWorx
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the MageWorx EULA that is bundled with
+ * this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.mageworx.com/LICENSE-1.0.html
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade the extension
+ * to newer versions in the future. If you wish to customize the extension
+ * for your needs please refer to http://www.mageworx.com/ for more information
+ *
+ * @category   MageWorx
+ * @package    MageWorx_CustomOptions
+ * @copyright  Copyright (c) 2012 MageWorx (http://www.mageworx.com/)
+ * @license    http://www.mageworx.com/LICENSE-1.0.html
+ */
+
+/**
+ * Advanced Product Options extension
+ *
+ * @category   MageWorx
+ * @package    MageWorx_CustomOptions
+ * @author     MageWorx Dev Team
+ */
+$helper = Mage::helper('customoptions');
+$maxInputVars = $helper->getMaxInputVars();
+?>
+<style type="text/css">
+.form-list td.note { padding-left:18px !important; }
+</style>
+<div class="entry-edit custom-options product-custom-options">
+    <div id="dynamic-price-warrning" style="display:none">
+        <ul class="messages">
+            <li class="error-msg">
+                <ul>
+                    <li><?php echo $this->__('Bundle with dynamic pricing cannot include custom defined options. Options will not be saved') ?></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+    <div class="entry-edit-head">
+        <h4><?php if ($this->isPredefinedOptions()===true) {
+            $model = Mage::registry('current_product');
+            echo $this->__('Custom Options');
+        } else {
+            $model = Mage::registry('customoptions_data');
+            echo $this->__('Template Options');
+        } ?></h4>
+        <div class="right"><?php echo $this->getAddButtonHtml() ?></div>
+    </div>
+
+    <div id="product_options_container" class="box">
+    	<div style="padding-top: 10px;">
+            <div id="max_input_vars" style="float:right; display:none;">
+                <?php echo $helper->__('Max Input Vars Left:') ?> <span id="max_input_vars_left"><?php echo $maxInputVars; ?></span> 
+                <a href="http://support.mageworx.com/index.php?/Knowledgebase/Article/View/38/11/the-extension-wont-let-save-many-options" target="_blank">
+                    <img src="<?php echo $this->getSkinUrl('images/btn_go.gif') ?>" alt="L" title="<?php echo $this->htmlEscape($helper->__('Open Manual')) ?>" class="v-middle" style="margin-bottom:4px;" />
+                </a>
+            </div>
+            <table class="form-list" cellspacing="0">
+                <tbody>
+                    <tr>
+                        <?php if ($this->isPredefinedOptions() === true) { ?>
+                            <td align="right"><big><?php echo $helper->__('Options Templates:') ?></big></td>
+                            <td width="10">&nbsp;</td>
+                        <?php } ?>
+                        <td><?php echo $this->getChildHtml('general_box') ?></td>
+                        <?php if ($this->isPredefinedOptions() === true) { ?>
+                            <td class="note" width="100"><small><?php echo $this->__('Select Options Templates and Save the product to apply options or <a href="%s" target="_blank">click here to define</a>', $this->getUrl('mageworx/customoptions_options')) ?></small></td>
+                        <?php } ?>
+                        <td width="100">&nbsp;</td>
+                        <td>
+                            <label><input type="checkbox" name="general[absolute_price]" value="1" <?php if ($model->getAbsolutePrice()) echo 'checked' ?> /> <?php echo $this->__('Enable Absolute Price') ?></label><br/>
+                            <?php if ($helper->isWeightEnabled()) { ?><label><input type="checkbox" name="general[absolute_weight]" value="1" <?php if ($model->getAbsoluteWeight()) echo 'checked' ?> /> <?php echo $this->__('Enable Absolute Weight') ?></label><br/><?php } ?>
+                            <?php if ($helper->isOptionSkuPolicyEnabled()) { ?><div style="padding: 4px 1px 4px 1px;"><?php echo $this->__('SKU Policy') ?>: <?php echo $this->getSkuPolicySelectHtml($model->getSkuPolicy());?></div><?php } ?>
+                        </td>
+                        <?php if (!$this->isPredefinedOptions()) { ?>
+                            <td width="50">&nbsp;</td>
+                            <td>
+                                <label><input type="checkbox" name="general[update_inventory]" value="1" <?php if ($model->getUpdateInventory()) echo 'checked' ?> /> <?php echo $this->__('Update Assigned Options\' Stock on Save') ?></label><br/>
+                                <label><input type="checkbox" name="general[only_update]" value="1" <?php if ($model->getOnlyUpdate()) echo 'checked' ?> /> <?php echo $this->__('Do Not Restore Deleted Options') ?></label><br/>
+                            </td>
+                        <?php } ?>
+                    </tr>
+                    <?php if ($this->isPredefinedOptions() === true) { ?>
+                    <tr>
+                        <td colspan="2">&nbsp;</td>
+                        <td><label><input type="checkbox" name="general[keep_options]" value="1" /> <?php echo $this->__('Keep Options on Unlink') ?></label></td>
+                    </tr>
+                    <?php } ?>      
+                </tbody>
+            </table>
+    	</div>
+        <input type="hidden" name="store" value="<?php echo intval(Mage::registry('store_id')) ?>"/>
+        <?php if (!Mage::getSingleton('catalog/product')->isReadonly()): ?><input type="hidden" name="affect_product_custom_options" value="1" /><?php endif; ?>        
+        <div id="product_options_container_top"></div>
+        <div id="product_options_container_down"></div>        
+        <?php echo $this->getOptionsBoxHtml() ?>
+    </div>
+</div>
+
+<script type="text/javascript">
+// re-bind form elements onchange
+varienWindowOnload(true);
+//show error message
+if ($('price_type')) {
+    if ($('price_type').value == '0' && $('dynamic-price-warrning')) {
+        $('dynamic-price-warrning').show();
+    }
+}
+$$('div.wrapper').first().style.minWidth = '<?php echo $helper->calculateAdditionalWidthOfFields(930); ?>px';
+
+phpSettings = {
+    max_input_vars: <?php echo $maxInputVars ?>,
+    max_input_vars_left: <?php echo $maxInputVars ?>,
+    checkMaxInputVars: function() {
+        var forms = $$('#product_edit_form', '#edit_form');
+        if (forms.length>0) {
+            var form = forms.first();
+            if (form) {
+                this.max_input_vars_left = this.max_input_vars - form.getElements().length;
+                // show info
+                if (this.max_input_vars_left < 500 && $('max_input_vars_left')) {
+                    $('max_input_vars').show();
+                    $('max_input_vars_left').innerHTML = this.max_input_vars_left;
+                    if (this.max_input_vars_left < 300) $('max_input_vars').style.color = 'red';
+                    if (this.max_input_vars_left < 10) {
+                        $$('button.save').each(function(el){
+                            $(el).writeAttribute('onclick', "alert('<?php echo $helper->__js('Max Input Vars is Reached!') ?>'); return false;");
+                        });
+                    }
+                }
+            }
+        }
+    }
+};
+phpSettings.checkMaxInputVars();
+document.observe('dom:loaded', function() {setTimeout('phpSettings.checkMaxInputVars()', 3000);});
+</script>

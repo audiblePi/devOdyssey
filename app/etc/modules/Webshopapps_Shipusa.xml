@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<config>
+	<modules>
+		<Webshopapps_Shipusa>
+			<active>true</active>
+			<codePool>community</codePool>
+			<depends>
+               <Mage_Shipping />
+               <Mage_Usa />
+               <Webshopapps_Wsacommon />
+           </depends>
+		</Webshopapps_Shipusa>
+	</modules>
+</config>

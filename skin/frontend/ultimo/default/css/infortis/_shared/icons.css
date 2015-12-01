@@ -1,0 +1,215 @@
+/**
+ * Icons and "feature" box
+ */
+
+
+
+/* Icon %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% */
+
+div.icon, /*backward compatibility*/
+span.icon {
+	background-color:#999;
+	background-position:0 0;
+	background-repeat:no-repeat;
+	border-radius:50%;
+	
+	vertical-align:middle;
+	display:inline-block;
+	width:30px;
+	height:30px;
+	padding:3px;
+}
+div.icon.large, /*backward compatibility*/
+span.icon.large {
+	width:50px;
+	height:50px;
+	padding:5px;
+}
+
+/* Hover */
+.icon-hover:hover /* Info: was more specific: span.icon-hover:hover */
+{
+	background-color:#333;
+}
+
+
+/* Icons: single characters (letters, numbers etc.)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+*/
+/* "i-number" - class name for backward compatibility */
+.icon.i-number,
+.icon.i-char {
+	font-size: 16px;
+	line-height: 30px;
+	font-weight: bold;
+	text-align: center;
+	color: #fff;
+	font-family: Arial, Helvetica, sans-serif;
+}
+.icon.large.i-number,
+.icon.large.i-char {
+	font-size: 20px;
+	line-height: 50px;
+	font-weight: normal;
+}
+
+
+
+/* Feature - box with icons, images, text etc. %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% */
+
+/* Basic styles */
+.feature { margin:10px 0; }
+.feature:after { display:block; content:"."; clear:both; font-size:0; line-height:0; height:0; overflow:hidden; }
+.feature.first { margin-top:0; }
+.feature.last { margin-bottom:0; }
+
+/* With top/bottom border line */
+.feature.top-border { border-top:1px solid #f5f5f5; padding-top:10px; }
+.feature.bottom-border { border-bottom:1px solid #f5f5f5; padding-bottom:10px; }
+
+/* Wrapper with top/bottom line
+-------------------------------------------------------------- */
+.feature-wrapper.top-border {
+	border-top:1px solid #f5f5f5;
+	margin-top:20px;
+	padding-top:20px;
+}
+.feature-wrapper.bottom-border {
+	border-bottom:1px solid #f5f5f5;
+	margin-bottom:20px;
+	padding-bottom:20px;
+}
+
+
+/* Feature headings
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+*/
+.feature .heading {
+	font-size:1.3333em; /*16px*/
+	line-height:1.25em; /*20px*/
+	margin-bottom:0.625em; /*10px*/
+	font-weight:normal;
+}
+.feature .above-heading {
+	margin:0 0 5px;
+	font-size:11px;
+	line-height:1.4545em; /*16px*/
+	text-transform:uppercase;
+	color:#888;
+}
+.feature .below-heading {
+	font-size:1em;
+	font-style:italic;
+	line-height:1.3333em; /*16px*/
+	color:#888;
+}
+
+
+/* Feature icons
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+*/
+.feature .icon { float:left; }
+
+/* Feature icons vertically centered */
+.feature.v-centered-content .v-center .icon {
+	margin:0 5px 0 0;
+}
+
+	/* Feature icons styles: */
+
+	/* Default icon
+	-------------------------------------------------------------- */
+	.feature .icon { margin:0 15px 10px 0; max-width:30px; max-height:30px; }
+	.feature span.icon { padding:3px; }
+
+	/* Small icon
+	-------------------------------------------------------------- */
+	.feature.small .icon { margin:0 10px 10px 0; max-width:18px; max-height:18px; }
+	.feature.small span.icon { padding:0; }
+	
+		/* Small icon: icons with predefined background image */
+		.feature.small span.icon.list1 {
+			background-image:url(../../../images/infortis/_shared/cck/list/list1.png);
+			width:18px; height:18px;
+		}
+		.feature.small span.icon.list2 {
+			background-image:url(../../../images/infortis/_shared/cck/list/list2.png);
+			width:18px; height:18px;
+		}
+
+	/* Large icon
+	-------------------------------------------------------------- */
+	.feature.large .icon { margin:0 15px 10px 0; max-width:50px; max-height:50px; }
+	.feature.large span.icon { padding:5px; }
+
+
+/* Indented feature
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+*/
+.feature.indent .icon { margin-bottom:0; }
+
+	/* Default
+	-------------------------------------------------------------- */
+	.feature.indent { padding-left:51px; }
+	.feature.indent .icon { margin-left:-51px; }
+
+	/* Small
+	-------------------------------------------------------------- */
+	.feature.small.indent { padding-left:28px; }
+	.feature.small.indent .icon { margin-left:-28px; }
+	
+	/* Large
+	-------------------------------------------------------------- */
+	.feature.large.indent { padding-left:75px; }
+	.feature.large.indent .icon { margin-left:-75px; }
+
+
+/* Feature centered
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+*/
+.feature.centered { text-align: center; }
+.feature.centered .icon {
+	float: none;
+	margin: 0 0 10px;
+}
+
+/* Feature: additional styles
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+*/
+/* Auto-size: allow for big icons. IMPORTANT: don't use "span" tag together with "icon" in this selector! */
+.feature .icon.auto-size { width: auto; max-width: none; height: auto; max-height: none; }
+
+
+
+/* Utility classes %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% */
+
+/* Icon without background color */
+.icon.no-bg-color { background-color: transparent; }
+.icon.force-no-bg-color { background-color: transparent !important; }
+
+/* Shapes */
+.icon.circle		{ border-radius: 50%; }
+.icon.rounded		{ border-radius: 5px; }
+.icon.square		{ border-radius: 0; }
+
+/* All icons square (deprecated) */
+.icon-wrapper-square span.icon { border-radius: 0; }
+
+/* Auto-size: allow for big icons */
+.icon.auto-size { width: auto; max-width: none; height: auto; max-height: none; }
+
+
+
+/* Transitions %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% */
+
+span.icon-hover,
+.feature-icon-hover span.icon {
+	transition:			color 300ms ease-in-out, background-color 300ms ease-in-out, background-position 300ms ease-in-out;
+	-moz-transition:	color 300ms ease-in-out, background-color 300ms ease-in-out, background-position 300ms ease-in-out;
+	-webkit-transition:	color 300ms ease-in-out, background-color 300ms ease-in-out, background-position 300ms ease-in-out;
+	-o-transition:		color 300ms ease-in-out, background-color 300ms ease-in-out, background-position 300ms ease-in-out;
+}

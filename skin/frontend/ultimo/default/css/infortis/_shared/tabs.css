@@ -1,0 +1,113 @@
+/**
+ * Generic tabs
+ */
+
+
+
+/* Basic styles
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+*/
+
+/* Tabs
+-------------------------------------------------------------- */
+/* Total height of the tab bar should be the same as in block titles */
+.gen-tabs .tabs li { float:left; margin:0; }
+.gen-tabs .tabs a {
+	display:block;
+	padding:0 10px;
+	text-decoration:none;
+	outline:none;
+}
+
+/* Tab panels
+-------------------------------------------------------------- */
+.gen-tabs .tabs-panels { padding:15px 0; }
+.gen-tabs .tabs-panels .panel {}
+
+/* Accordion
+-------------------------------------------------------------- */
+.gen-tabs .acctab {
+	display:none;
+	padding:0 0.5em;
+	margin-bottom:1px;
+	font-weight:normal;
+}
+.gen-tabs .acctab:hover { cursor:pointer; }
+
+/* Accordion mode enabled */
+.gen-tabs.accor .tabs { display:none; }
+.gen-tabs.accor .acctab { display:block; }
+.gen-tabs.accor .tabs-panels { padding-top:0; }
+.gen-tabs.accor .tabs-panels .panel { display:none; margin:0 0 10px; padding:15px; }
+
+
+/* Default skin
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+*/
+.gen-tabs .tabs a {
+	color:#333;
+	background-color:#eee;
+	line-height:3em;
+}
+.gen-tabs .tabs a:hover,
+.gen-tabs .tabs a:focus   { background-color:#e5e5e5; }
+.gen-tabs .tabs a.current { background-color:#ddd; }
+
+/* Accordion
+-------------------------------------------------------------- */
+.gen-tabs .acctab {
+	font-size:1.5em;
+	line-height:2.7777em;
+	background-color:#f5f5f5;
+	color:#333;
+}
+.gen-tabs .acctab:hover,
+.gen-tabs .acctab:focus,
+.gen-tabs .acctab.current { background-color:#e5e5e5; }
+.gen-tabs.accor .tabs-panels .panel { border-bottom:1px solid #e5e5e5; }
+
+
+/* Tabs - skin 1: with thin borders
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+*/
+.gen-tabs-style1 .tabs a {
+	font-size:1.3333em;
+	color:#333;
+	background-color:#eee;
+	border:1px solid transparent;
+	border-bottom:none;
+}
+.gen-tabs-style1 .tabs a:hover,
+.gen-tabs-style1 .tabs a:focus   { background-color:#e5e5e5; border-color:#e5e5e5; }
+.gen-tabs-style1 .tabs a.current {
+	background-color:#fff;
+	border-color:#e5e5e5;
+	border-bottom:1px solid transparent;
+	margin-bottom:-1px;
+	
+	/* Make a little bit higher than other tabs */
+	padding-top:4px;
+	margin-top:-4px;
+}
+.gen-tabs-style1 .tabs-panels { border-top:1px solid #e5e5e5; }
+.gen-tabs-style1.accor .tabs-panels { border-top:none; }
+
+
+/* Tabs - skin 2: with shadow (obsolete, will be removed in next updates)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+*/
+.gen-tabs-style2 .tabs a { font-size:1.3333em; }
+.gen-tabs-style2 .tabs a.current {
+	box-shadow:0 0 10px rgba(0,0,0, 0.15);
+	position:relative;
+	z-index:1;
+	
+	/* Make a little bit higher thatn other tabs */
+	padding-top:4px;
+	margin-top:-4px;
+}
+.gen-tabs-style2 .tabs-panels {
+	background-color:#fff;
+	position:relative;
+	z-index:2;
+}

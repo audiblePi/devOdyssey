@@ -1,0 +1,83 @@
+<?xml version="1.0"?>
+<!-- 
+/**
+ * MageWorx
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the MageWorx EULA that is bundled with
+ * this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.mageworx.com/LICENSE-1.0.html
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade the extension
+ * to newer versions in the future. If you wish to customize the extension
+ * for your needs please refer to http://www.mageworx.com/ for more information
+ *
+ * @category   MageWorx
+ * @package    MageWorx_CustomOptions
+ * @copyright  Copyright (c) 2012 MageWorx (http://www.mageworx.com/)
+ * @license    http://www.mageworx.com/LICENSE-1.0.html
+ */
+
+/**
+ * Advanced Product Options extension
+ *
+ * @category   MageWorx
+ * @package    MageWorx_CustomOptions
+ * @author     MageWorx Dev Team
+ */
+-->
+<config>
+    <menu>
+        <catalog>
+            <children>
+                <customoptions translate="title" module="customoptions">
+                    <title>Advanced Product Options</title>
+                    <sort_order>3</sort_order>
+                    <action>mageworx/customoptions_options/</action>
+                    <depends>
+                        <config>mageworx_catalog/customoptions/enabled</config>
+                    </depends>
+                </customoptions>
+            </children>
+        </catalog>
+    </menu>
+    <acl>
+        <resources>
+            <all>
+                <title>Allow Everything</title>
+            </all>
+            <admin>
+                <children>
+                    <catalog>
+                        <children>
+                            <customoptions translate="title" module="customoptions">
+                                <title>Advanced Product Options</title>
+                            </customoptions>
+                        </children>
+                    </catalog>
+                    <system>
+                        <children>
+                            <config>
+                                <children>
+                                    <mageworx_catalog translate="title" module="mageworx">
+                                        <title>MageWorx &gt; Catalog</title>
+                                        <sort_order>1</sort_order>
+                                        <children>
+                                            <customoptions translate="title" module="customoptions">
+                                                <title>Advanced Product Options</title>
+                                            </customoptions>
+                                        </children>
+                                    </mageworx_catalog>
+                                </children>
+                            </config>
+                        </children>
+                    </system>
+                </children>
+            </admin>
+        </resources>
+    </acl>
+</config>

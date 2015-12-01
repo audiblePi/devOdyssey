@@ -1,0 +1,137 @@
+4.8  -	Fixed handling fee per package in Fedex
+			Switched of TransitCommit switch as not reqd
+			Added support to switch ship date to monday if a sunday
+
+4.9 -	Enhanced box_algorithm logic to support ship separate
+
+4.10 -	Enhancement: Added support for limiting qty in a box on a per product basis.
+
+4.11 -	Added declared value option to UPS
+			Added grouping to shipping dimensionally so if  max weight, max qty not set - will now ship all together in 1 box.
+			Put protective code in Fedex to not send dimensions if not present, eg. ship separate no dim
+
+4.12 - Added support for configurable user details, requires dropship also
+		- 	Fixed issues with percentage_full variable
+
+4.13 - Tightened up some code around handling
+
+5.0 - Added in USPS API support
+
+5.1 - Tidied weight/ounces support in USPS
+
+5.2 - Boxmenu - Fixed action issue with controller that was causing problems with compiler, couldnt manage shipping boxes
+
+5.3 - Added support in for Fedex Declared value to include insurance cost - optional
+
+5.4 - Fixed issue in v5.3 around weight/price setting
+
+5.5 - Included M1.3* compatibility
+
+5.6 - Changed Fedex to output rates where warnings are present
+
+5.7 - Updated declared value to use package price in UPS
+
+6.0 - Pushed Fedexsoap back into Fedex carrier as was confusing for customers.
+      Split the shiping method display into default magento and that which is webshopapps addition
+      Added support for splitting packages > max weight
+      Added extra GXG allowed method for international USPS
+      Re-factored box processing to simplify codebase
+6.1 - Fixed issue with tracking number display on user account in UPS
+6.2 - Added support in for capturing transit time. Currently doesnt do anything with this value captured
+6.3 - Added Use parent switch
+7.0 - Added in changes to support an alternate box
+7.1 - Unknown
+7.2 - Added support for average packing
+7.3 - Code was being set incorrectly. This made the combine shipping methods in drop-ship fail. Was set as fedex, not fedexsoap. 
+7.4 - Removed thousands separator from declared value
+7.5 - Changed price/weight in average packing algorithm to allow for max weight & split according to volume
+7.6 - Refactored ceil on weight so that will allow upto 1 decimal place using system.xml switch
+7.7 - Changed USPS code to work with later php versions, Changed the GET to a POST
+7.8 - Outputs product id. Added further number format change in negotiated rates
+7.9 - Changed height/width/length on new installs to be floats
+      Resolved issue with retrieving Fedex quotes on 1.6 magento
+7.10 - Added support for ACCOUNT rate request type
+7.11 - Added support for multiple shipment origins for UPS in Dropship
+7.12 - Ensured UPS were only sent 2 signicant figures in dimensions
+7.13 - Qualified for Magento 1.6.1
+8.0  - Fixed isModuledEnabled() calls for multiple wsa extesnions. Moved to Community location
+8.1  - Added in support for currency conversion of rates if not in store currency. Moved back to local
+8.2  - Fixed non-impacting text typo in ShipFrom in UPS. Added support for dimItems to not have a ship box id. Fixed issue where if dimensions and packing box specified it gets confused over which to use.
+9.0  - Added support & extra tab for shipping items in multiple boxes. Changed attribute fetch to not require used_in_product_listing
+9.1  - Changed install/upgrade scripts to be idempotent. 
+9.2  - Added support for ship separately logic (especially in bundled items)
+9.3  - Implemented split on max weight for FedEx as it is in UPS.
+9.4  - Improved the implementation of HandlingProduct handling fees. Can now apply per order or per package.
+9.5  - Put a fix in to work with non-US zipcodes and return all chars
+10.0 - Major re-write to support specifying more than one box for an item.  No longer supports switching on ship all dimensional, or switch off ship single dimensional
+       Added in support for handling product per package or per order to FedEx and UPS.
+10.1 - Bought some USPS logic inline with latest magento. Added extra error handling to observer.
+10.2 - Added support to use -99 in quantity to indicate item can go in any box
+10.3 - Added support to allow customer to specify whether a product can be split into multiple packages or not. Added support for packing weight
+10.4 - Fixed USPS namings to use Parcel instead of package
+10.5 - Added packing weight support to old/new logic.  Fixed support for countries with optional postcodes
+11.0 - Refactored Fedex to include Smart Post and support v10 Web Service. Added negotiated rates to USPS
+11.1 - Added back in length width and height attributes to facilitate product import.
+11.2 - When shipping to Canada uses Canadian origin. Serial key error message now shows up on Shipping Methods, also fixed Ship All Items Separately switch.
+11.3 - Added switch to turn on/off package dimensions in comment history.
+11.4 - Added check to see if max package weight is set in the request via warehouse if using dropship.
+11.5 - changed dimensions to be integers instead of decimal values, UPS doesnt like decimal values
+11.6 - Fixed issues with default boxes not calculating correctly - now uses new codebase
+11.7 - Tidies up logging output of XML so can be read easily. Fixes issue with packing weight defaulting to -1
+11.8 - Added support for specifying allowed methods on warehouse level for USPS and Fedex when using Dropship
+12.0 - Moved to community
+12.1 - DIMSHIP-9 Fixed issue causing problem around accuracy of List and Account rate request types.
+12.2 - DIMSHIP-10 Tidied up fedex and usps credential override and removed unnecessary Dropship check related to change implemented in v11.8
+12.3 - DIMSHIP-21 Added extra check into International Rates so if request type doesnt match wont return rates back & Added support for USPS 2013 API DIMSHIP-15
+12.4 - DIMSHIP-25 DIMSHIP-27 Put changes into Fedex list/account to make more flexible. Put extra check in weight ceil to ensure correctness
+12.5 - Added install SQL script to install ship_box attribute for Largest Box logic
+12.6 - DIMSHIP-36 - Added USPS Flat Box logic.
+12.7 - DIMSHIP-39, DIMSHIP-40, DIMSHIP-42 - Fixed issue with double box calculations. Fixed potential issues with ship separate logic. Added currency support, RATED Rate Type into Fedex.
+12.8 - MD-48 - Added support for Dimensional and UPSCalendar to work together
+13.0 - DIMSHIP-45 Major refactor to add greater support for reassessing boxes after each one is filled. Added support for fractions of qtys, no package volume (-99 qty)
+13.1 - DIMSHIP-49 - Updated for July API Update
+13.2 - DIMSHIP-50 - Removed time in transit info. Updated getCode method to ensure all methods are there.
+13.3 - DIMSHIP-53 - Added ability to retrieve just USPS flat rate box rates.
+13.4 - DIMSHIP-54 - Added insurance support for Canada
+13.5 - DIMSHIP-58 - Made changes to how boxes are re-assessed.  Changed the compare algorithm to be tighter and look at percentage full on single items
+13.6 - DIMSHIP-65 - Added unit of measure to FedEx
+13.7 - DIMSHIP-76 - Reworked USPS Flat Rate Box logic
+       DIMSHIP-19 - Changed to support SKUs
+       DIMSHIP-56 - Tidied boxmenu code
+       DIMSHIP-75 - Changed USPS Flat Rate box logic so must be created under Manage Shipping Boxes before use
+       DIMSHIP-74 - Fixed sort order of menu
+       DIMSHIP-73 - Changed default max weight/qty to be -1 in boxmenu
+13.8 - DIMSHIP-86 - Added in support minimum package weight support.
+13.9 - DIMSHIP-89 - Added new feature to add on packing weight to sales_flat_order::weight
+13.10 - DIMSHIP-99 - Fedex is not adding on Customs duty when ground shipping is sent from USA to Canada
+13.11 - DIMSHIP-98 - Price added into the Order comments
+13.12  - DIMSHIP-103 - You can now see the dimensions in the log for custom SKU
+13.12.2  - DIMSHIP-104 Resolved issue with fixed pricing on bundles and shipping separately
+13.12.3  - Latest common
+13.12.4  - DIMSHIP-107 Fixed issue when changing the SKU of the product, the boxes assigned would be duplicated
+13.12.5  - DIMSHIP-115 Changed the way product tabs loaded to work with conflicting extension. DIMSHIP-116 Changed add to order comments to only fire on successful checkout
+13.12.6  - DIMSHIP-117 This resolves issue with some rate types not returning around Smart Post
+13.13  - DIMSHIP-118 Separate UseParent for Configurable/Bundle
+13.13.1  - DIMSHIP-119 Removed unit of measure from Fedex to use the default one in place instead
+13.13.2  - DIMSHIP-123 Added support for Default USPS FlatBoxes
+13.13.3  - DIMSHIP-123 DIMSHIP-124 Tidied up some of the code around USPS
+13.14  - DIMSHIP-117 Fixed issue when requesting FedEx account rates, expected multiple results, only 1 returned
+13.15  - DIMSHIP-121, DIMSHIP-127 Updated wording in system.xml and Fixed issue with customs fee for Canada to USA
+13.15.1  - DIMSHIP-128 FedEx Endpoint Update
+13.16  - DIMSHIP-128 FedEx Endpoint Update
+13.17  - DIMSHIP-122 Added in support to FedEx to display days in transit
+13.17.1  - DIMSHIP-127 Fixed issue around the customs currency code
+13.17.2  - COMMON-34 - Updated Common
+13.18  - DIMSHIP-130 Added support for case pack qty
+13.19  - DIMSHIP-106 Implemented Best Fit Algorithm
+14.0  - DIMSHIP-106 Moving up major version number
+14.0.1  - DIMSHIP-106 Fixed issue where ship_possible_boxes set to int instead of varchar in updgrade script
+14.0.2  - DIMSHIP-117 - Fixed issue around FedEx responding with an array
+14.0.3  - DIMSHIP-131 - Improved  free shipping to work with magento 1.6 and earlier
+14.1  - DIMSHIP-132 Added tolerance at the product level
+14.1.1  - Updated Common
+14.1.2  - DIMSHIP-133 Multiple shipping boxes not working correctly
+14.2  - DIMSHIP-135 - Added compatibility with UPS Date Shipping
+14.3  - DIMSHIP-135 - Added compatibility with UPS Date shipping, improved Saturday delivery
+14.3.1  - DIMSHIP-139 - Free shipping fixed to work with USPS CE1.8+
+14.3.2  - DIMSHIP-144 Added in Priority Mail Military methods

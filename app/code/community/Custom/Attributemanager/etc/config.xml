@@ -1,0 +1,88 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Custom_Attributemanager>
+            <version>1.0.6</version>
+        </Custom_Attributemanager>
+    </modules>
+    <admin>
+        <routers>
+			<attributemanager>
+				<use>admin</use>
+				<args>
+					<module>Custom_Attributemanager</module>
+					<frontName>attributemanager</frontName>
+				</args>
+			</attributemanager>
+        </routers>
+    </admin>
+
+    <adminhtml>
+		<menu>
+			<customer>
+				<children>
+					<attrmanager> 
+						<title>Attribute Manager</title>
+						<sort_order>600</sort_order>           
+						<children>
+							<customer translate="title" module="attributemanager">
+								<title>Customer's Attributes</title>
+								<action>attributemanager/index/customer/filter//</action>
+							</customer>
+						</children>
+					</attrmanager> 
+				</children>
+			</customer>
+		</menu>
+		<acl>
+			<resources>
+				<all>
+					<title>Allow Everything</title>
+				</all>
+				<admin>
+					<children>
+						<Custom_Attributemanager>
+							<title>Attributemanager Module</title>
+							<sort_order>10</sort_order>
+						</Custom_Attributemanager>
+					</children>
+				</admin>
+			</resources>
+		</acl>
+		<layout>
+			<updates>
+				<attributemanager>
+					<file>attributemanager.xml</file>
+				</attributemanager>
+			</updates>
+		</layout>
+    </adminhtml> 
+     
+	<frontend>
+		<layout>
+			<updates>
+				<attributemanager>
+					<file>attributemanager.xml</file>
+				</attributemanager>
+			</updates>
+		</layout>
+	</frontend>
+	
+    <global>
+        <models>
+            <attributemanager>
+                <class>Custom_Attributemanager_Model</class>
+            </attributemanager>
+        </models>
+        <blocks>
+            <attributemanager>
+                <class>Custom_Attributemanager_Block</class>
+            </attributemanager>
+        </blocks>
+        <helpers>
+            <attributemanager>
+                <class>Custom_Attributemanager_Helper</class>
+            </attributemanager>
+        </helpers>
+    </global>
+</config>

@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Webshopapps_Boxmenu>
+            <active>true</active>
+            <codePool>community</codePool>
+        </Webshopapps_Boxmenu>
+    </modules>
+</config> 

@@ -1,0 +1,124 @@
+<?php
+/**
+ * MageWorx
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the MageWorx EULA that is bundled with
+ * this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.mageworx.com/LICENSE-1.0.html
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade the extension
+ * to newer versions in the future. If you wish to customize the extension
+ * for your needs please refer to http://www.mageworx.com/ for more information
+ *
+ * @category   MageWorx
+ * @package    MageWorx_CustomOptions
+ * @copyright  Copyright (c) 2013 MageWorx (http://www.mageworx.com/)
+ * @license    http://www.mageworx.com/LICENSE-1.0.html
+ */
+
+/**
+ * Advanced Product Options extension
+ *
+ * @category   MageWorx
+ * @package    MageWorx_CustomOptions
+ * @author     MageWorx Dev Team
+ */
+
+$helper = Mage::helper('customoptions');
+?>
+<script type="text/javascript">
+//<![CDATA[
+OptionTemplateText = '<table class="border" <?php if ($helper->isDefaultTextEnabled()) { ?>style="width:1100px;"<?php } ?> cellpadding="0" cellspacing="0">'+
+        '<tr class="headings">'+
+            <?php if ($helper->isDependentEnabled()) { ?>'<th class="type-id"><?php echo $helper->__js('Id') ?></th>'+<?php } ?>
+            '<th class="type-price"><?php echo $helper->__js('Price') ?></th>'+
+            '<th class="type-type"><?php echo $helper->__js('Price Type') ?></th>'+
+            '<th class="type-sku"><?php echo $helper->__js('SKU') ?></th>'+            
+            '<th><?php echo $helper->__js('Max Characters') ?> </th>'+
+            <?php if ($helper->isDefaultTextEnabled()) { ?>'<th class="type-text-default"><?php echo $helper->__js('Default Text') ?></th>'+<?php } ?>
+            '<th class="type-last last"></th>'+
+        '</tr>'+
+        '<tr>'+
+            <?php if ($helper->isDependentEnabled()) { ?>'<td align="center">{{in_group_id_view}}</td>'+<?php } ?>
+            '<td><input type="text" class="input-text validate-number product-option-price" id="product_option_{{option_id}}_price" name="product[options][{{option_id}}][price]" value="{{price}}"></td>'+
+            '<td><?php echo $helper->jsEscape($this->getPriceTypeSelectHtml()) ?>{{checkboxScopePrice}}</td>'+
+            '<td>'+
+                '<input type="text" class="input-sku{{sku_class}}" id="product_option_{{option_id}}_sku" name="product[options][{{option_id}}][sku]" value="{{sku}}" onchange="if (!this.value) productOptionType.enablePrice({{id}});">'+
+                '{{view_product_by_sku_html}}'+
+            '</td>'+
+            '<td><input type="text" class="input-text validate-zero-or-greater" id="product_option_{{option_id}}_max_characters" name="product[options][{{option_id}}][max_characters]" value="{{max_characters}}"></td>'+
+            <?php if ($helper->isDefaultTextEnabled()) { ?>'<td><input type="text" class="input-text" style="width: 99% !important;" id="product_option_{{id}}_default_text" name="product[options][{{option_id}}][default_text]" value="{{default_text}}"><br />{{checkboxScopeDefaultText}}</td>'+<?php } ?>
+            '<td><span title="Add image"><?php echo $helper->jsEscape($this->getAddImageButtonHtml()) ?></span></td>'+
+        '</tr>'+
+        '<tr id="file_option_row_{{option_id}}">'+
+            <?php if ($helper->isDependentEnabled()) { ?>'<td></td>'+<?php } ?>
+            '<td colspan="4">{{image}}</td>'+
+        '</tr>'+
+        '<tr>'+
+            <?php if ($helper->isDependentEnabled()) { ?>'<td></td>'+<?php } ?>
+            '<td colspan="4"><div id="file-upload-{{option_id}}"></div></td>'+
+        '</tr>'+       
+    '</table>'+
+    '<input type="hidden" class="igi" id="product_option_{{option_id}}_in_group_id" name="product[options][{{option_id}}][in_group_id]" value="{{in_group_id}}"/>';
+
+OptionTemplateArea = '<table class="border" <?php if ($helper->isDefaultTextEnabled()) { ?>style="width:1100px;"<?php } ?> cellpadding="0" cellspacing="0">'+
+        '<tr class="headings">'+
+            <?php if ($helper->isDependentEnabled()) { ?>'<th class="type-id"><?php echo $helper->__js('Id') ?></th>'+<?php } ?>
+            '<th class="type-price"><?php echo $helper->__js('Price') ?></th>'+
+            '<th class="type-type"><?php echo $helper->__js('Price Type') ?></th>'+
+            '<th class="type-sku"><?php echo $helper->__js('SKU') ?></th>'+            
+            '<th><?php echo $helper->__js('Max Characters') ?> </th>'+
+            <?php if ($helper->isDefaultTextEnabled()) { ?>'<th class="type-text-default"><?php echo $helper->__js('Default Text') ?></th>'+<?php } ?>
+            '<th class="type-last last"></th>'+
+        '</tr>'+
+        '<tr>'+
+            <?php if ($helper->isDependentEnabled()) { ?>'<td align="center">{{in_group_id_view}}</td>'+<?php } ?>
+            '<td><input type="text" class="input-text validate-number product-option-price" id="product_option_{{option_id}}_price" name="product[options][{{option_id}}][price]" value="{{price}}"></td>'+
+            '<td><?php echo $helper->jsEscape($this->getPriceTypeSelectHtml()) ?>{{checkboxScopePrice}}</td>'+
+            '<td>'+
+                '<input type="text" class="input-sku{{sku_class}}" id="product_option_{{option_id}}_sku" name="product[options][{{option_id}}][sku]" value="{{sku}}" onchange="if (!this.value) productOptionType.enablePrice({{id}});">'+
+                '{{view_product_by_sku_html}}'+
+            '</td>'+
+            '<td><input type="text" class="input-text validate-zero-or-greater" id="product_option_{{option_id}}_max_characters" name="product[options][{{option_id}}][max_characters]" value="{{max_characters}}"></td>'+
+            <?php if ($helper->isDefaultTextEnabled()) { ?>'<td><textarea class="textarea" style="width: 99% !important;" id="product_option_{{id}}_default_text" name="product[options][{{option_id}}][default_text]">{{default_text}}</textarea><br />{{checkboxScopeDefaultText}}</td>'+<?php } ?>
+            '<td><span title="Add image"><?php echo $helper->jsEscape($this->getAddImageButtonHtml()) ?></span></td>'+
+        '</tr>'+
+        '<tr id="file_option_row_{{option_id}}">'+
+            <?php if ($helper->isDependentEnabled()) { ?>'<td></td>'+<?php } ?>
+            '<td colspan="4">{{image}}</td>'+
+        '</tr>'+
+        '<tr>'+
+            <?php if ($helper->isDependentEnabled()) { ?>'<td></td>'+<?php } ?>
+            '<td colspan="4"><div id="file-upload-{{option_id}}"></div></td>'+
+        '</tr>'+     
+    '</table>'+
+    '<input type="hidden" class="igi" id="product_option_{{option_id}}_in_group_id" name="product[options][{{option_id}}][in_group_id]" value="{{in_group_id}}"/>';
+
+productOptionTypeText = {
+        createFileField: function(strId) {
+            var id = strId.split('-');
+            var tpl = '<table class="customoptions-file-row" cellspacing="0" cellpadding="0" style="border:none;"><tr>'+
+                '<td style="border:none;"><input class="input-file" type="file" name="file_'+ id[3] +'" value="" /></td>'+
+                '<td align="right" class="td-button" style="border:none;"><span title="<?php echo $this->htmlEscape($this->__('Hide')) ?>">'+
+                    '<button type="button" onclick="productOptionTypeText.cleanFileRow(\''+ id[3] +'\')" class="delete delete-select-row narrow-delete-button icon-btn"><span><?php echo $helper->__js('Hide') ?></span></button></span>'+
+                '</td>'+
+                '</tr></table>';
+            var field = $('file-upload-'+ id[3]);
+            if (field) {
+                field.update(tpl);
+            }
+        },
+        cleanFileRow: function(optionId) {
+            var fileRow = $('file-upload-'+ optionId);
+            if (fileRow) {
+        	fileRow.update('');
+            }
+	}
+    };
+//]]>
+</script>

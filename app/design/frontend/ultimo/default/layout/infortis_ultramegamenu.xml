@@ -1,0 +1,162 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+
+	<default>
+	
+		<reference name="head">
+			<!-- CSS -->
+			<action method="addItem"><type>skin_css</type><name>css/infortis/_shared/itemgrid.css</name><params/></action>
+			<action method="addItem"><type>skin_css</type><name>css/infortis/_shared/accordion.css</name><params/></action>
+			<action method="addItem"><type>skin_css</type><name>css/infortis/ultra-megamenu/ultra-megamenu.css</name></action>
+			<action method="addItem"
+				ifconfig="ultramegamenu/mainmenu/classic_menu"><type>skin_css</type><name>css/infortis/ultra-megamenu/classic.css</name><params/></action>
+			<action method="addItem"
+				ifconfig="ultramegamenu/mainmenu/wide_menu"><type>skin_css</type><name>css/infortis/ultra-megamenu/wide.css</name><params/></action>
+			
+			<!-- js -->
+			<action method="addJs"><script>infortis/jquery/jquery-1.7.2.min.js</script></action>
+			<action method="addJs"><script>infortis/jquery/jquery-noconflict.js</script></action>
+			
+			<action method="addJs"><script>infortis/jquery/plugins/jquery.easing.min.js</script></action>
+			<action method="addJs"><script>infortis/jquery/plugins/jquery.accordion.min.js</script></action>
+			
+			<!-- TODO: -->
+			<action method="removeItem"
+				ifconfig="ultramegamenu/mainmenu/wide_menu"><type>js</type><name>varien/menu.js</name><params/></action>
+		</reference>
+
+		<reference name="top.menu">
+			<action method="unsetChild"><name>catalog.topnav</name></action>
+			<block type="ultramegamenu/navigation" name="catalog.topnav.menu" template="infortis/ultramegamenu/mainmenu.phtml"/>
+		</reference>
+		
+		<reference name="catalog.topnav.menu">
+			<block type="cms/block" name="block_header_nav_dropdown">
+				<action method="setBlockId"><block_id>block_header_nav_dropdown</block_id></action>
+			</block>
+			<block type="cms/block" name="block_nav_links">
+				<action method="setBlockId"><block_id>block_nav_links</block_id></action>
+			</block>
+		</reference>
+
+		<!-- Sidebar menu block -->
+		<reference name="root">
+			<block type="ultramegamenu/navigation" name="umm.sidemenu" template="infortis/ultramegamenu/categories.phtml" before="-" />
+		</reference>
+
+	</default>
+	
+	
+	<!-- Category view (without layered navigation) -->
+	<catalog_category_default>
+
+		<reference name="left">
+			<action method="insert" ifconfig="ultramegamenu/sidemenu/enable_category_left">
+				<block>umm.sidemenu</block>
+			</action>
+		</reference>
+		<reference name="right">
+			<action method="insert" ifconfig="ultramegamenu/sidemenu/enable_category_right">
+				<block>umm.sidemenu</block>
+			</action>
+		</reference>
+		
+		<reference name="left">
+			<action method="unsetChild"
+				ifconfig="ultramegamenu/sidemenu/hide_laynav_categories"><alias>catalog.leftnav</alias></action>
+		</reference>
+		
+	</catalog_category_default>
+	
+	
+	<!-- Category view (with layered navigation) -->
+	<catalog_category_layered>
+
+		<reference name="left">
+			<action method="insert" ifconfig="ultramegamenu/sidemenu/enable_category_left">
+				<block>umm.sidemenu</block>
+			</action>
+		</reference>
+		<reference name="right">
+			<action method="insert" ifconfig="ultramegamenu/sidemenu/enable_category_right">
+				<block>umm.sidemenu</block>
+			</action>
+		</reference>
+		
+		<reference name="catalog.leftnav">
+			<action method="unsetChild"
+				ifconfig="ultramegamenu/sidemenu/hide_laynav_categories"><alias>category_filter</alias></action>
+		</reference>
+		
+	</catalog_category_layered>
+
+
+	<!-- CMS pages -->
+	<cms_page>
+
+		<reference name="left">
+			<action method="insert" ifconfig="ultramegamenu/sidemenu/enable_cms_left">
+				<block>umm.sidemenu</block>
+				<siblingName></siblingName>
+				<after>0</after>
+				<alias>umm.sidemenu.cms.left</alias>
+			</action>
+		</reference>
+		<reference name="right">
+			<action method="insert" ifconfig="ultramegamenu/sidemenu/enable_cms_right">
+				<block>umm.sidemenu</block>
+				<siblingName></siblingName>
+				<after>0</after>
+				<alias>umm.sidemenu.cms.right</alias>
+			</action>
+		</reference>
+
+	</cms_page>
+
+
+	<!-- Home page -->
+	<cms_index_index>
+
+		<reference name="left">
+			<action method="insert" ifconfig="ultramegamenu/sidemenu/enable_home_left">
+				<block>umm.sidemenu</block>
+				<siblingName>home_left</siblingName>
+				<after>0</after>
+			</action>
+			<!-- Remove sidebar menu added for CMS pages to get rid of duplicate -->
+			<action method="unsetChild"><alias>umm.sidemenu.cms.left</alias></action>
+		</reference>
+		<reference name="right">
+			<action method="insert" ifconfig="ultramegamenu/sidemenu/enable_home_right">
+				<block>umm.sidemenu</block>
+				<siblingName>home_right</siblingName>
+				<after>0</after>
+			</action>
+			<!-- Remove sidebar menu added for CMS pages to get rid of duplicate -->
+			<action method="unsetChild"><alias>umm.sidemenu.cms.right</alias></action>
+		</reference>
+
+	</cms_index_index>
+
+
+	<!-- Product view -->
+	<catalog_product_view>
+
+		<reference name="left">
+			<action method="insert" ifconfig="ultramegamenu/sidemenu/enable_product_left">
+				<block>umm.sidemenu</block>
+				<siblingName></siblingName>
+				<after>0</after>
+			</action>
+		</reference>
+		<reference name="right">
+			<action method="insert" ifconfig="ultramegamenu/sidemenu/enable_product_right">
+				<block>umm.sidemenu</block>
+				<siblingName></siblingName>
+				<after>0</after>
+			</action>
+		</reference>
+
+	</catalog_product_view>
+
+</layout>

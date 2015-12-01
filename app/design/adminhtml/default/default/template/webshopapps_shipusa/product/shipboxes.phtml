@@ -1,0 +1,95 @@
+<?php
+$_shipBoxes = $this->getShipBoxes();
+
+$_store = Mage::app()->getStore($this->getProduct()->getStoreId());
+?>
+<div class="entry-edit">
+    <div class="entry-edit-head">
+        <h4 class="icon-head head-edit-form fieldset-legend"><?php echo Mage::helper('shipusa')->__('Shipping Boxes used for this Product') ?></h4>
+        <div class="right"><button type="button" class="scalable add" id="shipusa-box-add"><span><?php echo $this->__('Add Box') ?></span></button></div>
+    </div>
+    <fieldset>
+        <legend><?php echo $this->__('Shipping Box Details') ?></legend>
+        <div class="grid">
+            <div class="hor-scroll">
+                <table cellspacing="0" class="data" id="table_shipboxes">
+                    <thead>
+                        <tr class="headings">
+                            <th><?php echo $this->__('Length') ?></th>
+                            <th><?php echo $this->__('Width') ?></th>
+
+                            <th><?php echo $this->__('Height') ?></th>
+                            <th><?php echo $this->__('Weight per Box') ?></th>
+                            <th><?php echo $this->__('Declared Value per Box') ?></th>
+                            <th><?php echo $this->__('Quantity per Box') ?></th>
+
+                            <th><?php echo $this->__('Number of Boxes') ?></th>
+                        </tr>
+                        <tr id="shipusa_row_template" style="display:none">
+                            <td><input type="decimal" class="input-decimal" name="shipusa_shipboxes[$ROW][length]" value="$LENGTH" style="width:70px" /></td>
+                            <td><input type="decimal" class="input-decimal" name="shipusa_shipboxes[$ROW][width]" value="$WIDTH" style="width:70px" /></td>
+                            <td><input type="decimal" class=input-decimal name="shipusa_shipboxes[$ROW][height]" value="$HEIGHT" style="width:70px" /></td>
+                            <td><input type="decimal" class="input-decimal" name="shipusa_shipboxes[$ROW][weight]" value="$WEIGHT" style="width:70px" /></td>
+                            <td><input type="decimal" class="input-decimal" name="shipusa_shipboxes[$ROW][declared_value]" value="$DECLARED_VALUE" style="width:70px" /></td>
+                            <td><input type="int" class="input-int" name="shipusa_shipboxes[$ROW][quantity]" value="$QUANTITY" style="width:70px" /></td>
+                            <td><input type="int" class="input-int" name="shipusa_shipboxes[$ROW][num_boxes]" value="$NUM_BOXES" style="width:70px" /></td>
+
+                            <td><button type="button" class="scalable delete"><span><?php echo $this->__('Remove') ?></span></td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div id="messages"><ul class="messages"><li class="notice-msg"><ul>
+            <li><?php echo $this->__('Note:') ?></li>
+            <li><?php echo $this->__('This section allows you to enter multiple boxes that a product ships in.') ?></li>
+            <li><?php echo $this->__('Any dimensions here supercede dimensions logic specified under Shipping Tab.') ?></li>
+            <li><?php echo $this->__('Ship Dimensional must be set to Yes in Shipping Settings or Product Listing.') ?></li>
+        </ul></li></ul></div>
+    </fieldset>
+</div>
+
+<script type="text/javascript">
+//<![CDATA[
+(function ()
+{
+    var lastRowNum = 1;
+    var tbody = $$('#table_shipboxes tbody')[0]
+
+    function addRow(data)
+    {
+        var rowHtml = $('shipusa_row_template').innerHTML
+        data = data || {
+        	shipboxes_id: '',
+            length: '',
+            width: '',
+            height: '',
+            weight: '',
+            declared_value:'',
+            num_boxes: '',
+            quantity: ''
+        }
+        data.row = lastRowNum++;
+		Prototype.Browser.IE8 = Prototype.Browser.IE && parseInt(navigator.userAgent.substring(navigator.userAgent.indexOf("MSIE")+5)) == 8;
+        for (i in data) {
+            value = data[i] || ''
+            if (i!=='row' && Prototype.Browser.IE8) value = '"'+value+'"'
+            rowHtml = rowHtml.replace(new RegExp('\\$'+i.toUpperCase(), 'g'), value)
+        }
+        tbody.insert('<tr>'+rowHtml+'</tr>')
+        var trs = tbody.childElements()
+        var tr = trs[trs.length-1]
+        var del = $(tr).select('button')[0]
+        $(del).observe('click', function(e) { e.stop(); $(del.parentNode.parentNode).remove() })
+    }
+
+    $('shipusa-box-add').observe('click', function(e) { e.stop(); addRow() })
+
+<?php foreach ($_shipBoxes as $_shipBox): ?>
+    addRow(<?php echo Zend_Json::encode($_shipBox->getData()) ?>)
+<?php endforeach ?>
+})()
+//]]>
+</script>
