@@ -1,0 +1,81 @@
+<?xml version="1.0"?>
+<!-- 
+/**
+ * MageWorx
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the MageWorx EULA that is bundled with
+ * this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.mageworx.com/LICENSE-1.0.html
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade the extension
+ * to newer versions in the future. If you wish to customize the extension
+ * for your needs please refer to http://www.mageworx.com/ for more information
+ *
+ * @category   MageWorx
+ * @package    MageWorx_CustomOptions
+ * @copyright  Copyright (c) 2014 MageWorx (http://www.mageworx.com/)
+ * @license    http://www.mageworx.com/LICENSE-1.0.html
+ */
+
+/**
+ * Advanced Product Options extension
+ *
+ * @category   MageWorx
+ * @package    MageWorx_CustomOptions
+ * @author     MageWorx Dev Team
+ */
+-->
+<layout version="0.1.0">
+    <catalog_product_view>
+        <reference name="head">
+            <action method="addItem" ifconfig="mageworx_catalog/customoptions/enabled"><type>js_css</type><name>mageworx/lightbox/css/lightbox.css</name><params/></action>
+            <action method="addItem" ifconfig="mageworx_catalog/customoptions/enabled"><type>js_css</type><name>mageworx/lightbox/css/lightbox-ie.css</name><params/><if>lt IE 8</if></action>
+            <action method="addItem" ifconfig="mageworx_catalog/customoptions/enabled"><type>js</type><name>mageworx/lightbox/js/lightbox.js</name><params/><if/></action>
+            <action method="addItem" ifconfig="mageworx_catalog/customoptions/enabled"><type>js</type><name>mageworx/tagtip.js</name><params/><if/></action>
+            <action method="addCss" ifconfig="mageworx_catalog/customoptions/enabled"><stylesheet>css/customoptions.css</stylesheet></action>
+        </reference>
+        <reference name="product.info.options">
+            <action method="addOptionRenderer" ifconfig="mageworx_catalog/customoptions/enabled"><type>text</type><block>catalog/product_view_options_type_text</block><template>customoptions/catalog-product-view-options-type-text.phtml</template></action>
+            <action method="addOptionRenderer" ifconfig="mageworx_catalog/customoptions/enabled"><type>file</type><block>catalog/product_view_options_type_file</block><template>customoptions/catalog-product-view-options-type-file.phtml</template></action>
+            <action method="addOptionRenderer" ifconfig="mageworx_catalog/customoptions/enabled"><type>select</type><block>catalog/product_view_options_type_select</block><template>customoptions/catalog-product-view-options-type-select.phtml</template></action>
+            <action method="addOptionRenderer" ifconfig="mageworx_catalog/customoptions/enabled"><type>date</type><block>catalog/product_view_options_type_date</block><template>customoptions/catalog-product-view-options-type-date.phtml</template></action>
+            <action method="addOptionRenderer" ifconfig="mageworx_catalog/customoptions/enabled"><type>default</type><block>catalog/product_view_options_type_default</block><template>customoptions/catalog-product-view-options-type-default.phtml</template></action>
+            <action method="setTemplate" ifconfig="mageworx_catalog/customoptions/enabled"><template>customoptions/catalog-product-view-options.phtml</template></action>
+        </reference>
+    </catalog_product_view>
+    
+    <ajax_index_options>
+    	<reference name="product.info.options">
+            <action method="addOptionRenderer" ifconfig="mageworx_catalog/customoptions/enabled"><type>text</type><block>catalog/product_view_options_type_text</block><template>customoptions/catalog-product-view-options-type-text.phtml</template></action>
+            <action method="addOptionRenderer" ifconfig="mageworx_catalog/customoptions/enabled"><type>file</type><block>catalog/product_view_options_type_file</block><template>customoptions/catalog-product-view-options-type-file.phtml</template></action>
+            <action method="addOptionRenderer" ifconfig="mageworx_catalog/customoptions/enabled"><type>select</type><block>catalog/product_view_options_type_select</block><template>customoptions/catalog-product-view-options-type-select.phtml</template></action>
+            <action method="addOptionRenderer" ifconfig="mageworx_catalog/customoptions/enabled"><type>date</type><block>catalog/product_view_options_type_date</block><template>customoptions/catalog-product-view-options-type-date.phtml</template></action>
+            <action method="addOptionRenderer" ifconfig="mageworx_catalog/customoptions/enabled"><type>default</type><block>catalog/product_view_options_type_default</block><template>customoptions/catalog-product-view-options-type-default.phtml</template></action>
+            <action method="setTemplate" ifconfig="mageworx_catalog/customoptions/enabled"><template>customoptions/catalog-product-view-options.phtml</template></action>
+        </reference>
+    </ajax_index_options>
+    
+    
+    <catalog_category_default>
+        <reference name="product_list">
+            <block type="customoptions/catalog_product_list_toolbar" name="customoptions_product_list_toolbar" template="catalog/product/list/toolbar.phtml">
+                <block type="page/html_pager" name="product_list_toolbar_pager"/>
+            </block>
+            <action method="setToolbarBlockName" ifconfig="mageworx_catalog/customoptions/set_product_out_of_stock"><name>customoptions_product_list_toolbar</name></action>
+        </reference>
+    </catalog_category_default>    
+    <catalog_category_layered>
+        <reference name="product_list">
+            <block type="customoptions/catalog_product_list_toolbar" name="customoptions_product_list_toolbar" template="catalog/product/list/toolbar.phtml">
+                <block type="page/html_pager" name="product_list_toolbar_pager"/>
+            </block>
+            <action method="setToolbarBlockName" ifconfig="mageworx_catalog/customoptions/set_product_out_of_stock"><name>customoptions_product_list_toolbar</name></action>
+        </reference>
+    </catalog_category_layered>
+    
+</layout>

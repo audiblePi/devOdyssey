@@ -1,0 +1,59 @@
+<?php
+/**
+ * MageWorx
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the MageWorx EULA that is bundled with
+ * this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.mageworx.com/LICENSE-1.0.html
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade the extension
+ * to newer versions in the future. If you wish to customize the extension
+ * for your needs please refer to http://www.mageworx.com/ for more information
+ *
+ * @category   MageWorx
+ * @package    MageWorx_CustomOptions
+ * @copyright  Copyright (c) 2014 MageWorx (http://www.mageworx.com/)
+ * @license    http://www.mageworx.com/LICENSE-1.0.html
+ */
+
+/**
+ * Advanced Product Options extension
+ *
+ * @category   MageWorx
+ * @package    MageWorx_CustomOptions
+ * @author     MageWorx Dev Team
+ */
+$_option = $this->getOption();
+$disabled = '';
+$helper = Mage::helper('customoptions');
+if ($helper->isDefaultTextEnabled() && !$this->getDefaultValue() && $_option->getDefaultText()) $defaultValue = $_option->getDefaultText(); else $defaultValue = $this->getDefaultValue();
+if ($helper->isDependentEnabled() && $_option->getIsDependent()) {
+    $disabled = 'disabled="disabled"';
+}
+$optionJs = 'opConfig.reloadPrice(); optionSetQtyProduct.checkLimitQty('. $_option->getId() .', this)';
+?>
+<div <?php if ($helper->hideDependentOption() && $_option->getIsDependent() || $_option->getViewMode()==2) { ?>style="display: none;"<?php } ?> class="option<?php if ($helper->isSpecifyingCssClassEnabled() && $_option->getDivClass()) echo ' '.$_option->getDivClass() ?>">
+<dl>
+<?php if ($helper->isImagesAboveOptions()) echo $helper->getImgHtml($helper->getImgData($_option->getImagePath(), $_option->getId())); ?>
+<dt><label><?php echo  $this->htmlEscape($_option->getTitle()) ?><?php if ($_option->getIsRequire(true)): ?><span class="required">&nbsp;*</span><?php endif; ?></label>
+    <?php echo $helper->getFormatedOptionPrice($this->getProduct(), $_option) ?>
+    <?php echo $helper->getOptionDescription($_option); ?>
+</dt>
+<dd<?php if ($_option->decoratedIsLast){?> class="last"<?php }?>>
+    <?php if ($_option->getType() == Mage_Catalog_Model_Product_Option::OPTION_TYPE_FIELD): ?>
+        <input type="text" onchange="<?php echo $optionJs ?>" onkeyup="<?php echo $optionJs ?>" <?php echo $disabled; ?> id="options_<?php echo $_option->getId() ?>_text" class="input-text<?php echo $_option->getIsRequire(true) ?($_option->getIsDependent()?' required-dependent':' required-entry') : '' ?> <?php echo $_option->getMaxCharacters() ? ' validate-length maximum-length-'.$_option->getMaxCharacters() : '' ?> product-custom-option" name="options[<?php echo $_option->getId() ?>]" value="<?php echo $this->htmlEscape($defaultValue) ?>" />
+    <?php elseif ($_option->getType() == Mage_Catalog_Model_Product_Option::OPTION_TYPE_AREA): ?>
+        <textarea id="options_<?php echo $_option->getId() ?>_text" onchange="<?php echo $optionJs ?>" onkeyup="<?php echo $optionJs ?>" <?php echo $disabled; ?> class="text-area<?php echo $_option->getIsRequire(true) ?($_option->getIsDependent()?' required-dependent':' required-entry') : '' ?> <?php echo $_option->getMaxCharacters() ? ' validate-length maximum-length-'.$_option->getMaxCharacters() : '' ?> product-custom-option" name="options[<?php echo $_option->getId() ?>]" rows="5" cols="25"><?php echo $this->htmlEscape($defaultValue) ?></textarea>
+    <?php endif; ?>
+    <?php if ($_option->getIsDependentLQty()) { ?>
+        <p class="note"><?php echo $this->__('Characters left:') ?> <strong id="total_limit_<?php echo $_option->getId() ?>"><?php echo $_option->getMaxCharacters() ?></strong></p>
+    <?php } ?>
+</dd>
+<?php if (!$helper->isImagesAboveOptions()) echo $helper->getImgHtml($helper->getImgData($_option->getImagePath(), $_option->getId())); ?>
+</dl>
+</div>
